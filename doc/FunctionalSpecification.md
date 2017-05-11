@@ -1,5 +1,5 @@
-# <center>Ax/Wx - Traffic Accident / Weather Analysis</center>
-# <center>Functional Specification</center>
+ Ax/Wx - Traffic Accident / Weather Analysis - Functional Specification
+=======================================================================
 
 
 BACKGROUND
@@ -25,7 +25,7 @@ Our target users are individuals in positions of authority to act on the informa
 
 To use this visualization tool, the level of computer experience required for a traffic engineer is familiarity with operating graphical user interfaces (point, click, drag, apply drop-down filters). The domain knowledge required to make proper use of the visualization tool will need to be on an expert level regarding high-level understanding of traffic planning, specifically to the Seattle area. A traffic engineer would be able to utilize this resource to identify recurring issues in traffic frequency due to inclement weather and make informed daily decisions as to whether precautionary signs or crash barriers may be required in short-term tactical planning.  For long-term strategic planning, they can assess frequencies and severity of collisions based on location to make proposals for infrastructure improvements to city officials.
 
-##### Law Enforcement Officer
+#### Law Enforcement Officer
 
 The level of computer experience required for a law enforcement officer to use this tool is familiarity with operating graphical user interfaces. For domain experience, a law enforcement officer will need to have practical knowledge and hands-on experience encountering automobile collisions in the Seattle area. With this tool, they can better plan their daily shifts given knowledge of recurring locations of collisions. This may result in an increased visual presence for a specific location that is known to be hazardous, or other proactive safety measures.
 
@@ -46,27 +46,27 @@ _Use cases. How will users interact with the system and how will the system resp
 
 Traffic engineers already know to some degree where and when traffic is heavy and make infrastructural improvements by creating new roadways, expanding or changing existing roadways, and monitoring the flow of traffic. The flow of traffic in Seattle can be explained by traffic engineers through observations of multiple variables. With a tool that provides more in depth analysis of traffic related directly to weather patterns, it may be possible for traffic engineers to further “curb” the increased traffic flow by taking countermeasures during times of weather that are known to impact traffic with a high probability. Recently in Seattle, traffic engineers have implemented “variable speed zones” on I-5 based on traffic patterns. A traffic engineer could use the predictive analysis of Ax/Wx to determine where more “variable speed zones” should be implemented, and when the speed should be adjusted (i.e. collisions occur X% more often at location Y when the weather conditions are Z).
 
-<center>_(Insert Use Case Picture Here)_</center>
+_(Insert Use Case Picture Here)_
 
 #### Law Enforcement Officer
 
 Law enforcement officers would interact with this tool by understanding where collisions were likely to happen when certain weather conditions rolled in. The tool will take all the collision information and combine it with detailed weather data for that time. A statistical model will be built from this data and used to predict where the location of highest probability for collisions will occur based on the current weather conditions. An officer would then have a map of Seattle showing them where those areas would be and be able to potentially stop collisions before they happen. Simple being visually present at a given location reduces the speed of traffic and forces drivers to be more self-aware. Weather is not necessarily the sole cause of collisions, but rather a contributing factor, along with many others including speed. Unfortunately, we cannot control the weather, but we do have the ability to adjust other factors that may be amplified by the weather conditions. A law enforcement officer could look at the weather report prior to planning his or her shift, and subsequently use the Ax/Wx tool to determine where collisions are more likely to occur given the current weather (predictive analysis based on past conditions). Providing an increased law enforcement presence in those specific locations may reduce collisions.
 
-<center>_(Insert Use Case Picture Here)_</center>
-<center>_Have a google map with ‘hot zones’ of high probability_</center>
+_(Insert Use Case Picture Here)_
+_Have a google map with ‘hot zones’ of high probability_
 <cneter>_traffic collisions based on current weather conditions._</cneter>
 
 #### Insurance Company
 
 Although it is recognized that the use of Ax/Wx by insurance companies may negatively impact drivers through increased premiums, it may also benefit other drivers through decreased premiums. Insurance companies already look at the distances driven by insured drivers, but with the increasing number of vehicles that have GPS built-in they could begin tracking where and when insured drivers are driving. With Ax/Wx an individual working for an insurance company could determine whether an insured driver drives frequently in areas known to have an increased risk of collisions due to inclement weather conditions. Alternatively, they could also use Ax/Wx to reduce premiums for drivers that drive more often in fair weather or along roadways that are not significantly impacted by weather conditions. Another use case for an individual working for an insurance company would be to provide coverage to drivers at different rates throughout shorter time periods (i.e. winter premiums versus summer premiums). Some drivers may benefit from this as they may only be seasonal employees and drive during the summer months only.
 
-<cneter>_(Insert Use Case Picture Here)_</cneter>
+_(Insert Use Case Picture Here)_
 
 #### Common Driver
 
 While it may not be as financially impactful for common drivers or pertain to a larger goal such as making decisions to increase overall traffic safety, Ax/Wx would still be available to everyone. Like the use of Google Maps (or some other GPS app), Ax/Wx could potentially provide drivers with the best route possible for avoiding traffic collisions (based on historical data), given the current weather conditions. Ideally, this would be in some form of a mobile app and even more ideally, integrated with an existing app to provide more real-time information while a person is driving. Currently, the common driver could still use Ax/Wx to plan a road trip given the weather forecast.
 
-<center>_(Insert Use Case Picture Here)_</center>
+_(Insert Use Case Picture Here)_
 
 #### MOCK UP OF COLLISION MAP
 
