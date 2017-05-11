@@ -85,9 +85,44 @@ def scrape_data_multi_day(station_id, start_date, end_date):
         dd = date.day
         scrape_data_one_day(station_id=station_id, year=yyyy, month=mm, day=dd)
 
-
+# examples to run
 # data_string = scrape_data_one_day(station_id="KWAEDMON15", year=2016, month=9, day=10)
-scrape_data_multi_day("KWAEDMON15", 20170410, 20170418)
+# scrape_data_multi_day("KWAEDMON15", 20170417, 20170418)
 
 # save_wu_data(data_string)
 
+# URL of PWS list:
+# https://www.wunderground.com/weatherstation/ListStations.asp?selectedState=WA&selectedCountry=United+States&MR=1
+
+import numpy as np
+import pandas as pd
+import requests
+from bs4 import BeautifulSoup
+
+def scrape_station_info(state="WA"):
+
+    url = "https://www.wunderground.com/weatherstation/ListStations.asp?selectedState=" + state + "&selectedCountry=United+States&MR=1"
+    raw_site_content = requests.get(url).content
+    soup = BeautifulSoup(raw_site_content, 'html.parser')
+
+    list_stations_info = soup.find_all("tr")  # one text element in list for each station
+
+    all_station_info = np.array(['id', 'neighborhood', 'city', 'type'])
+
+    for i in range(1, len(list_stations_info)):  # start at 1 to omit first element (col headers)
+
+        station_info = str(list_stations_info[i]).splitlines()
+
+        # pull out station info
+        station_id = station_info[1].split('ID=')[1].split('"')[0].strip()
+        station_neighborhood = station_info[2].split('<td>')[1].split('\xa0')[0].strip()
+        station_city = station_info[3].split('<td>')[1].split('\xa0')[0].strip()
+        station_type = station_info[4].split('station-type">')[1].split('\xa0')[0].strip()
+
+        all_station_info = np.vstack([all_station_info, [station_id, station_neighborhood, station_city, station_type]])
+
+    return all_station_info
+
+
+all_info = scrape_station_info()
+print(all_info[:,0][0:30])
