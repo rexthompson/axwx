@@ -66,4 +66,4 @@ Refined Mockup:
 ![Refined Mockup][refinedmockup]
 
 [roughmockup]: https://github.com/rexthompson/Ax-Wx/tree/master/images/WhiteboardMockup.JPG "Rough Mockup"
-[refinedmockup]: https://github.com/rexthompson/Ax-Wx/tree/master/images/mockup2.jpg "Refined Mockup"
+[refinedmockup]: https://github.com/rexthompson/Ax-Wx/tree/master/images/mockup2.jpg?raw=true "Refined Mockup"
