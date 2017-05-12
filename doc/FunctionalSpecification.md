@@ -59,7 +59,7 @@ Although it is recognized that the use of Ax/Wx by insurance companies may negat
 While it may not be as financially impactful for common drivers or pertain to a larger goal such as making decisions to increase overall traffic safety, Ax/Wx would still be available to everyone. Like the use of Google Maps (or some other GPS app), Ax/Wx could potentially provide drivers with the best route possible for avoiding traffic collisions (based on historical data), given the current weather conditions. Ideally, this would be in some form of a mobile app and even more ideally, integrated with an existing app to provide more real-time information while a person is driving. Currently, the common driver could still use Ax/Wx to plan a road trip given the weather forecast.
 
 
-Mockups
+MOCKUPS
 -------
 ![Rough Mockup](https://raw.githubusercontent.com/rexthompson/Ax-Wx/master/images/WhiteboardMockup.JPG "Rough Mockup")
 ![Refined Mockup](https://raw.githubusercontent.com/rexthompson/Ax-Wx/master/images/mockup2.jpg "Refined Mockup")
