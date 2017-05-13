@@ -1,16 +1,21 @@
-# placeholder for Weather Underground data scraping script
 
-# Sample URL:
-# https://www.wunderground.com/weatherstation/WXDailyHistory.asp?
-# ID=KWAEDMON15&day=18&month=4&year=2017&graphspan=day&format=1
+"""
+Weather Underground Scraping Module
 
+Code to scrape various datasets from wunderground's PWS network
+
+"""
+
+import csv
+import time
+
+from bs4 import BeautifulSoup
+import numpy as np
 import pandas as pd
 import requests
-import csv
-import os
+
 
 def scrape_data_one_day(station_id, year, month, day):
-
     """
     Retrieve PWS data for given station and a given day
     :param station_id: string
@@ -19,40 +24,38 @@ def scrape_data_one_day(station_id, year, month, day):
         year
     :param month: int
         month
-    :param day:
+    :param day: int
         day
-    :return: None
+    :return: pandas DataFrame with data for requested day
+
+    Sample URL:
+    https://www.wunderground.com/weatherstation/WXDailyHistory.asp?
+    ID=KWAEDMON15&day=18&month=4&year=2017&graphspan=day&format=1
+
     """
-    url = "https://www.wunderground.com/weatherstation/WXDailyHistory.asp?ID="\
-          + station_id + "&day="\
-          + str(day) + "&month="\
-          + str(month) + "&year="\
-          + str(year)\
+
+    url = "https://www.wunderground.com/" \
+          "weatherstation/WXDailyHistory.asp?ID=" \
+          + station_id + "&day=" \
+          + str(day) + "&month=" \
+          + str(month) + "&year=" \
+          + str(year) \
           + "&graphspan=day&format=1"
 
-    print(url)
+    content = requests.get(url).text
+    content = content.replace("\n", "")
+    content = content.replace("<br>", "\n")
+    content = content.replace(",\n", "\n")
 
-    temp_file_name = station_id + "_" + str(year) + \
-               str("{0:0>2}".format(month)) + str(day) + '.csv'
+    data_csv_lines = csv.reader(content.split('\n'), delimiter=',')
+    data_list = list(data_csv_lines)
+    data_df = pd.DataFrame.from_records(data_list[1:-1], columns=data_list[0])
 
-    download = requests.get(url).text
-    download = download.replace("\n", "")
-    download = download.replace("<br>", "\n")
-
-    with open(temp_file_name, 'w') as temp_file:
-        temp_file.writelines(download)
-
-    print(temp_file_name)
-
-    # return(download)
+    return data_df
 
 
-def save_wu_data(data_string):
-    with open(temp_file_name, 'w') as temp_file:
-        temp_file.writelines(data_string)
-
-
-def scrape_data_multi_day(station_id, start_date, end_date):
+def scrape_data_multi_day(station_id, start_date, end_date,
+                          delay=3, combined_df=None):
     """
     Retrieve PWS data for given station and a given date range
     :param station_id: string
@@ -61,68 +64,92 @@ def scrape_data_multi_day(station_id, start_date, end_date):
         start date for data retrieval
     :param enddate: int (yyyymmdd)
         end date for data retrieval
-    :return: 
+    :param delay: int
+        delay between requests to WU server (seconds)
+    :return: pandas DataFrame with combined data for period requested
     """
 
-    start_date = str(start_date)
-    start_date_yyyy = int(start_date[0:4])
-    start_date_mm = int(start_date[4:6])
-    start_date_dd = int(start_date[6:8])
+    if combined_df is None:
+        combined_df = pd.DataFrame()
+    else:
+        pass
 
-    end_date = str(end_date)
-    end_date_yyyy = int(end_date[0:4])
-    end_date_mm = int(end_date[4:6])
-    end_date_dd = int(end_date[6:8])
+    # parse out date components
+    start_date_str = str(start_date)
+    start_date_yyyy = int(start_date_str[0:4])
+    start_date_mm = int(start_date_str[4:6])
+    start_date_dd = int(start_date_str[6:8])
+    end_date_str = str(end_date)
+    end_date_yyyy = int(end_date_str[0:4])
+    end_date_mm = int(end_date_str[4:6])
+    end_date_dd = int(end_date_str[6:8])
 
-    start_date = pd.datetime(start_date_yyyy, start_date_mm, start_date_dd)
-    end_date = pd.datetime(end_date_yyyy, end_date_mm, end_date_dd)
-
-    date_list = pd.date_range(start_date, end_date)
+    # create date range
+    start_date_pd = pd.datetime(start_date_yyyy, start_date_mm, start_date_dd)
+    end_date_pd = pd.datetime(end_date_yyyy, end_date_mm, end_date_dd)
+    date_list = pd.date_range(start_date_pd, end_date_pd)
 
     for date in date_list:
-        yyyy = date.year
-        mm = date.month
-        dd = date.day
-        scrape_data_one_day(station_id=station_id, year=yyyy, month=mm, day=dd)
+        temp_yyyy = date.year
+        temp_mm = date.month
+        temp_dd = date.day
+        print('retreiving data for ' + station_id + " on " +
+              str(temp_yyyy) + "-" + str(temp_mm) + "-" + str(temp_dd))
+        day_df = scrape_data_one_day(station_id=station_id, year=temp_yyyy,
+                                     month=temp_mm, day=temp_dd)
+        combined_df.append(day_df, ignore_index=True)
+        time.sleep(delay)
+
+    return combined_df
 
 # examples to run
-# data_string = scrape_data_one_day(station_id="KWAEDMON15", year=2016, month=9, day=10)
-# scrape_data_multi_day("KWAEDMON15", 20170417, 20170418)
+# single_day = scrape_data_one_day(station_id="KWAEDMON15",
+# year=2016, month=9, day=10)
+# multi_day = scrape_data_multi_day("KWAEDMON15", 20170217, 20170219)
 
-# save_wu_data(data_string)
-
-# URL of PWS list:
-# https://www.wunderground.com/weatherstation/ListStations.asp?selectedState=WA&selectedCountry=United+States&MR=1
-
-import numpy as np
-import pandas as pd
-import requests
-from bs4 import BeautifulSoup
 
 def scrape_station_info(state="WA"):
 
-    url = "https://www.wunderground.com/weatherstation/ListStations.asp?selectedState=" + state + "&selectedCountry=United+States&MR=1"
+    """
+    A script to scrape the station information published at the following URL:
+    https://www.wunderground.com/weatherstation/ListStations.asp?
+    selectedState=WA&selectedCountry=United+States&MR=1
+    :param state: US State by which to subset WU Station table
+    :return: numpy array with station info
+    """
+    url = "https://www.wunderground.com/" \
+          "weatherstation/ListStations.asp?selectedState=" \
+          + state + "&selectedCountry=United+States&MR=1"
     raw_site_content = requests.get(url).content
     soup = BeautifulSoup(raw_site_content, 'html.parser')
 
-    list_stations_info = soup.find_all("tr")  # one text element in list for each station
+    list_stations_info = soup.find_all("tr")
 
     all_station_info = np.array(['id', 'neighborhood', 'city', 'type'])
 
-    for i in range(1, len(list_stations_info)):  # start at 1 to omit first element (col headers)
+    for i in range(1, len(list_stations_info)):  # start at 1 to omit headers
 
         station_info = str(list_stations_info[i]).splitlines()
 
         # pull out station info
-        station_id = station_info[1].split('ID=')[1].split('"')[0].strip()
-        station_neighborhood = station_info[2].split('<td>')[1].split('\xa0')[0].strip()
-        station_city = station_info[3].split('<td>')[1].split('\xa0')[0].strip()
-        station_type = station_info[4].split('station-type">')[1].split('\xa0')[0].strip()
+        station_id = station_info[1].split('ID=')[1].split('"')[0]
+        station_neighborhood = station_info[2].split('<td>')[1]
+        station_neighborhood = station_neighborhood.split('\xa0')[0]
+        station_city = station_info[3].split('<td>')[1].split('\xa0')[0]
+        station_type = station_info[4].split('station-type">')[1]
+        station_type = station_type.split('\xa0')[0]
 
-        all_station_info = np.vstack([all_station_info, [station_id, station_neighborhood, station_city, station_type]])
+        station_id = station_id.strip()
+        station_neighborhood = station_neighborhood.strip()
+        station_city = station_city.strip()
+        station_type = station_type.strip()
+
+        all_station_info = np.vstack([all_station_info,
+                                      [station_id, station_neighborhood,
+                                       station_city, station_type]])
 
     return all_station_info
 
 
-all_info = scrape_station_info()
-print(all_info[:,0][0:30])
+# all_info = scrape_station_info()
+# print(all_info[:,0][0:30])
