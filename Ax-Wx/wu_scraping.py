@@ -97,7 +97,7 @@ def scrape_data_multi_day(station_id, start_date, end_date,
               str(temp_yyyy) + "-" + str(temp_mm) + "-" + str(temp_dd))
         day_df = scrape_data_one_day(station_id=station_id, year=temp_yyyy,
                                      month=temp_mm, day=temp_dd)
-        combined_df.append(day_df, ignore_index=True)
+        combined_df = combined_df.append(day_df, ignore_index=True)
         time.sleep(delay)
 
     return combined_df
