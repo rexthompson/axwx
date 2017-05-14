@@ -8,6 +8,15 @@ _This section should list the components that you expect to have in your project
 
 WU pull
 	scrapy/beautifulsoup
+
+**Getting the latitude and longitude from the weather stations.**
+Use the data scraped previously from weather underground listing the unique station identification. From these data we created a script to obtain the latitude and longitude from these weather stations. The script runs as follows:
+
+- Load the data into python using a panda dataframe.
+- We used the urllib3 package to make each URL request.
+- The beautiful soup package was used to parse the XML document that was returned from each URL call. 
+- Any missing data was filled in with NA's. 
+
 WU cleanup
 	coordinate mapping (lat/lon)
 
@@ -48,3 +57,4 @@ PROJECT PLAN
 _Provide details for what you'll accomplish in the next two weeks, and higher level descriptions for the remaining weeks in the quarter so that the end result is that you have implemented and tested a system that accomplishes your use cases._
 
 <stuff here>
+
