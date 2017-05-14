@@ -6,7 +6,20 @@ COMPONENTS
 ----------
 _This section should list the components that you expect to have in your project (not necessarily a complete list), what they do, and how their interfaces (e.g., functions with inputs and outputs). If the component is an existing package, then you should point to a documentation for the package. If the component is something that you'll build, then describe (maybe at a high level) the functions and their inputs and outputs._
 
-<stuff here>
+WU pull
+	scrapy/beautifulsoup
+WU cleanup
+	coordinate mapping (lat/lon)
+
+collision pull
+collision cleanup
+	coordinate mapping (lat/lon)
+
+merge of two datasets
+
+visualization of data
+	bokeh
+	folium
 
 
 INTERACTIONS
