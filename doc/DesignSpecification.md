@@ -73,12 +73,43 @@ The majority of the components listed above are preliminary steps required to ge
 
 #### Common Driver
 
-<stuff here>
 
 
 PROJECT PLAN
 ------------
 _Provide details for what you'll accomplish in the next two weeks, and higher level descriptions for the remaining weeks in the quarter so that the end result is that you have implemented and tested a system that accomplishes your use cases._
 
-<stuff here>
+Week 1:
+	- Lat/Long Station data table
+	- Weather Data Scraping
+	- Data cleaning
+		- Weather
+		- Collision
+	- Data Merging
+	- Data Visualization Skeleton
+	- Package selection for maps
+
+Week 2:
+	- Data package creation (?)
+	- Data visualization development 
+	- Data integrity checks (quality control)
+	- Code quality  and commenting- PEP8, PyLint
+
+Week 3:
+	- Unit Testing
+	- Update specifications and documentation
+		 - Functional Specification
+		 - Design Specification
+		 - README
+		 - LICENSE
+	- Project structure checks
+		- Setup.py file
+		- doc folder
+		- python package folder
+		- python modules 
+	- Project Examples
+	- Data poster
+	- Oral presentation practice runs
+
+
 
