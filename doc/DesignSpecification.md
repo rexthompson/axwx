@@ -11,11 +11,17 @@ WU pull
 WU cleanup
 	coordinate mapping (lat/lon)
 
-collision pull
-collision cleanup
-	coordinate mapping (lat/lon)
+#### Collision Data - Washington State Patrol (WSP) [Collision Analysis Tool](https://fortress.wa.gov/wsp/collisionanalysistool "CAT") (CAT)
 
-merge of two datasets
+The CAT provides the means to pull collision data that will be utilized in the project. This data can be pulled any time, with any filters (e.g., data ranges, cities, or counties) and can then be passed through the collision data cleanup. The data is provided by the WSP which keeps a detailed database of all reported collisions in Washington State. 
+
+#### Collision Data Cleanup
+
+The raw data includes several attributes that are not pertinent to the project and Ax/Wx visualization tool (217 attributes total). The purpose of the collision data cleanup is to get the data in such a format that it can be merged with the Weather Underground (WU) data and overlayed onto a map. In order to merge the two datasets, a function has been designed to transform the current WSP coordinate system (input) to global latitudes and longitudes (ouput). These new coordinates will be used to merrge the collision data with the weather data.
+
+#### Merge of Collision Data and Weather Data
+
+Using the coordinate mapping for the collision data, the plan is to design a function that takes the latitudes and longitudes as input and finds the nearest weather station information from the weather data. The weather data will be appended to the collision data, providing a new data file that is ready for the visualization process.
 
 visualization of data
 	bokeh
