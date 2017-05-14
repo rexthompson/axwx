@@ -1,3 +1,5 @@
+![Logo](https://raw.githubusercontent.com/rexthompson/Ax-Wx/master/images/Logo.png "Logo")
+
 Ax/Wx - Traffic Accident / Weather Analysis - Design Specification
 ==================================================================
 
@@ -61,19 +63,19 @@ The majority of the components listed above are preliminary steps required to ge
 
 #### Traffic Engineer
 
-<stuff here>
+Recently in Seattle, traffic engineers have implemented “variable speed zones” on I-5 based on traffic patterns. A traffic engineer could use the predictive analysis of Ax/Wx to determine where more “variable speed zones” should be implemented, and when the speed should be adjusted (i.e. collisions occur X% more often at location Y when the weather conditions are Z).
 
 #### Law Enforcement Officer
 
-<stuff here>
+A law enforcement officer could look at the weather report prior to planning his or her shift, and subsequently use the Ax/Wx tool to determine where collisions are more likely to occur given the current weather (predictive analysis based on past conditions). Providing an increased law enforcement presence in those specific locations may reduce collisions.
 
 #### Insurance Company
 
-<stuff here>
+With Ax/Wx, an individual working for an insurance company could determine whether an insured driver drives frequently in areas known to have an increased risk of collisions due to inclement weather conditions. Alternatively, they could also use Ax/Wx to reduce premiums for drivers that drive more often in fair weather or along roadways that are not significantly impacted by weather conditions.
 
 #### Common Driver
 
-<stuff here>
+Ax/Wx could provide drivers with the best route possible for avoiding traffic collisions (based on historical data), given the current weather conditions.
 
 
 PROJECT PLAN
@@ -81,4 +83,3 @@ PROJECT PLAN
 _Provide details for what you'll accomplish in the next two weeks, and higher level descriptions for the remaining weeks in the quarter so that the end result is that you have implemented and tested a system that accomplishes your use cases._
 
 <stuff here>
-
