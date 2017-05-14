@@ -57,7 +57,11 @@ INTERACTIONS
 ------------
 _You should have a subsection here for each use case in your functional specification (homework 6). In each subsection, you will describe how the components interact to accomplish the use case._
 
-The majority of the components listed above are preliminary steps required to get the data in such a format that it can easily be viewed by users.
+The majority of the components listed above are preliminary steps required to get the data in such a format that it can easily be viewed by users. The culmination of the data retrieval and cleaning process will be a single database of collision data with associated weather data; this database will be used in our visualization tool.
+
+The visualiztion tool itself will simply display collision and weather data based on user selections. It will default to show data for all collisions in the region. Various srcoll bars and buttons will be provided for fitlering the data. Clicking these buttons will filter the data based on the users' selections. For example, clicking the "Monday" button will trigger a filter of the collision and weather database to just those collisions that occurred on Mondays. Similarly, selecting a subset of the map will result in the map zooming in on the region of interest, and the database will be filtered based on this selection as well.
+
+Specific user-based interactions are briefly described below.
 
 #### Traffic Engineer
 
