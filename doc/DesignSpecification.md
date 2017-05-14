@@ -14,8 +14,8 @@ Use the data scraped previously from weather underground listing the unique stat
 
 - Load the data into python using a panda dataframe.
 - We used the urllib3 package to make each URL request.
-- The beautiful soup package was used to parse the XML document that was returned from each URL call. 
-- Any missing data was filled in with NA's. 
+- The beautiful soup package was used to parse the XML document that was returned from each URL call.
+- Any missing data was filled in with NA's.
 
 #### WU Personal Weather Station Observation Data Retrieval
 
@@ -43,14 +43,14 @@ The visualization will consist of a GUI with several plots of the collision/weat
 
 These interactions can help the user hone in on areas of interest and will update the plots in the GUI.  These will be plots of the following:
 
-- A primary visualization of a city map of Seattle with collisions marked by color based off of collision type (fatality, distraction, impairment, weather induced or pedestrian involvement).  
+- A primary visualization of a city map of Seattle with collisions marked by color based off of collision type (fatality, distraction, impairment, weather induced or pedestrian involvement).
 - A smaller supplementary time-series plot of collision frequency (per hour).
 - A smaller supplementary pareto of the number of collisions (per hour) by collision type.
 
 The Python packages that will be utilized for the visualization are listed as follows:
 
 - bokeh - http://bokeh.pydata.org/en/latest/docs/dev_guide/documentation.html
-	- The package "bokeh" is a interactive visualization library to help aid presentation by use of advanced custom graphics (such as interactive plots, dashboards, and data applications) in the style of D3.js.   
+	- The package "bokeh" is a interactive visualization library to help aid presentation by use of advanced custom graphics (such as interactive plots, dashboards, and data applications) in the style of D3.js.
 - folium - https://folium.readthedocs.io/en/latest/
 	- The package "folium" is a library with built-in tilesets from OpenStreetMap, Mapbox, and Stamen, supporting GeoJSON and TopoJSON overlays. Overall, it has a strength in map overlays.
 
@@ -59,7 +59,11 @@ INTERACTIONS
 ------------
 _You should have a subsection here for each use case in your functional specification (homework 6). In each subsection, you will describe how the components interact to accomplish the use case._
 
-The majority of the components listed above are preliminary steps required to get the data in such a format that it can easily be viewed by users.
+The majority of the components listed above are preliminary steps required to get the data in such a format that it can easily be viewed by users. The culmination of the data retrieval and cleaning process will be a single database of collision data with associated weather data; this database will be used in our visualization tool.
+
+The visualiztion tool itself will simply display collision and weather data based on user selections. It will default to show data for all collisions in the region. Various srcoll bars and buttons will be provided for fitlering the data. Clicking these buttons will filter the data based on the users' selections. For example, clicking the "Monday" button will trigger a filter of the collision and weather database to just those collisions that occurred on Mondays. Similarly, selecting a subset of the map will result in the map zooming in on the region of interest, and the database will be filtered based on this selection as well.
+
+Specific user-based interactions are briefly described below.
 
 #### Traffic Engineer
 
@@ -82,4 +86,37 @@ PROJECT PLAN
 ------------
 _Provide details for what you'll accomplish in the next two weeks, and higher level descriptions for the remaining weeks in the quarter so that the end result is that you have implemented and tested a system that accomplishes your use cases._
 
-<stuff here>
+Week 1:
+
+- Lat/Long Station data table
+- Weather Data Scraping
+- Data cleaning
+	- Weather
+	- Collision
+- Data Merging
+- Data Visualization Skeleton
+- Package selection for maps
+
+Week 2:
+
+- Data package creation (?)
+- Data visualization development
+- Data integrity checks (quality control)
+- Code quality  and commenting- PEP8, PyLint
+
+Week 3:
+
+- Unit Testing
+- Update specifications and documentation
+	 - Functional Specification
+	 - Design Specification
+	 - README
+	 - LICENSE
+- Project structure checks
+	- Setup.py file
+	- doc folder
+	- python package folder
+	- python modules
+- Project Examples
+- Data poster
+- Oral presentation practice runs
