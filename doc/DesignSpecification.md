@@ -9,11 +9,25 @@ COMPONENTS
 ----------
 _This section should list the components that you expect to have in your project (not necessarily a complete list), what they do, and how their interfaces (e.g., functions with inputs and outputs). If the component is an existing package, then you should point to a documentation for the package. If the component is something that you'll build, then describe (maybe at a high level) the functions and their inputs and outputs._
 
+#### Retrieve Personal Weather Station (PWS) Information
+
+We use a function called `scrape_station_info` to retrieve information about Personal Weather Stations within a single state. The following is an example source URL for Washington state:
+https://www.wunderground.com/weatherstation/ListStations.asp?selectedState=WA&selectedCountry=United+States&MR=1
+
+For each station in a given state, we scrape the Station ID, Neighborhood, City and Station Type. This function uses the `requests` and `BeautifulSoup` packages to scrape the station information and outputs station information as a `numpy` array.
+
+The function runs as follows:
+
+- Retrieves HTML of station data table for the requested state
+- Parses out table rows as elements in a list
+- splits strings for each element in the station info list
+- adds each row's data as a new row in a `numpy` array
+
 #### Getting the latitude and longitude from the weather stations
 
 Use the data scraped previously from weather underground listing the unique station identification. From these data, we created a script to obtain the latitude and longitude from these weather stations. The script runs as follows:
 
-- Load the data into python using a `pandas'` DataFrame.
+- Load the data into python using a `pandas` DataFrame.
 - We used the urllib3 package to make each URL request.
 - The beautiful soup package was used to parse the XML document that was returned from each URL call.
 - Any missing data was filled in with NA's.
