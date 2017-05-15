@@ -13,7 +13,7 @@ _This section should list the components that you expect to have in your project
 
 Use the data scraped previously from weather underground listing the unique station identification. From these data, we created a script to obtain the latitude and longitude from these weather stations. The script runs as follows:
 
-- Load the data into python using a `pandas' DataFrame.
+- Load the data into python using a `pandas'` DataFrame.
 - We used the urllib3 package to make each URL request.
 - The beautiful soup package was used to parse the XML document that was returned from each URL call.
 - Any missing data was filled in with NA's.
