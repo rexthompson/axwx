@@ -14,9 +14,11 @@ _This section lists the components that we expect to have in our project (not ne
 Use the data scraped previously from Weather Underground (WU) listing the unique station identification. From these data, we created a script to obtain the latitude and longitude from these weather stations. The script runs as follows:
 
 - Load the data into python using a `pandas'` DataFrame.
-- We used the urllib3 package to make each URL request.
-- The beautiful soup package was used to parse the XML document that was returned from each URL call.
-- Any missing data was filled in with NA's.
+- for each StationID
+    - Use `urllib3` package to make each API request using StationID
+    - Use `Beautiful Soup` to parse the XML document for lat, long and elevation
+    - Any missing data was filled in with NA's
+- Save the file and move on bigger things
 
 #### WU Personal Weather Station Observation Data Retrieval
 
