@@ -18,7 +18,7 @@ Use the data scraped previously from Weather Underground (WU) listing the unique
     - Use `urllib3` package to make each API request using StationID
     - Use `Beautiful Soup` to parse the XML document for lat, long and elevation
     - Any missing data was filled in with NA's
-- Save the file and move on bigger things
+- Save the file and move on to bigger things
 
 #### WU Personal Weather Station Observation Data Retrieval
 
