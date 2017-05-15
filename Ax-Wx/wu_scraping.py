@@ -93,7 +93,7 @@ def scrape_data_multi_day(station_id, start_date, end_date,
         temp_yyyy = date.year
         temp_mm = date.month
         temp_dd = date.day
-        print('retreiving data for ' + station_id + " on " +
+        print('retrieving data for ' + station_id + " on " +
               str(temp_yyyy) + "-" + str(temp_mm) + "-" + str(temp_dd))
         day_df = scrape_data_one_day(station_id=station_id, year=temp_yyyy,
                                      month=temp_mm, day=temp_dd)
