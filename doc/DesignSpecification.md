@@ -7,11 +7,11 @@ Ax/Wx - Traffic Accident / Weather Analysis - Design Specification
 
 COMPONENTS
 ----------
-_This section should list the components that you expect to have in your project (not necessarily a complete list), what they do, and how their interfaces (e.g., functions with inputs and outputs). If the component is an existing package, then you should point to a documentation for the package. If the component is something that you'll build, then describe (maybe at a high level) the functions and their inputs and outputs._
+_This section lists the components that we expect to have in our project (not necessarily a complete list), what they do, and how they interface (e.g., functions with inputs and outputs). This includes documentation for existing packages. For the components we have or plan to implement, we have listed the inputs and outputs._
 
 #### Getting the latitude and longitude from the weather stations
 
-Use the data scraped previously from weather underground listing the unique station identification. From these data, we created a script to obtain the latitude and longitude from these weather stations. The script runs as follows:
+Use the data scraped previously from Weather Underground (WU) listing the unique station identification. From these data, we created a script to obtain the latitude and longitude from these weather stations. The script runs as follows:
 
 - Load the data into python using a `pandas' DataFrame.
 - We used the urllib3 package to make each URL request.
@@ -33,7 +33,7 @@ The CAT provides the means to pull collision data that will be utilized in the p
 
 #### Collision Data Cleanup
 
-The raw data includes several attributes that are not pertinent to the project and Ax/Wx visualization tool (217 attributes total). The purpose of the collision data cleanup is to get the data in such a format that it can be merged with the Weather Underground (WU) data and overlaid onto a map. To merge the two datasets, a function has been designed to transform the current WSP coordinate system (input) to global latitudes and longitudes (output). These new coordinates will be used to merge the collision data with the weather data.
+The raw data includes several attributes that are not pertinent to the project and Ax/Wx visualization tool (217 attributes total). The purpose of the collision data cleanup is to get the data in such a format that it can be merged with the WU data and overlaid onto a map. To merge the two datasets, a function has been designed to transform the current WSP coordinate system (input) to global latitudes and longitudes (output). These new coordinates will be used to merge the collision data with the weather data.
 
 #### Merge of Collision Data and Weather Data
 
@@ -59,7 +59,6 @@ The Python packages that will be utilized for the visualization are listed as fo
 
 INTERACTIONS
 ------------
-_You should have a subsection here for each use case in your functional specification (homework 6). In each subsection, you will describe how the components interact to accomplish the use case._
 
 Most of the components listed above are preliminary steps required to get the data in such a format that it can easily be viewed by users. The culmination of the data retrieval and cleaning process will be a single database of collision data with associated weather data; this database will be used in our visualization tool.
 
@@ -86,11 +85,10 @@ Ax/Wx could provide drivers with the best route possible for avoiding traffic co
 
 PROJECT PLAN
 ------------
-_Provide details for what you'll accomplish in the next two weeks, and higher level descriptions for the remaining weeks in the quarter so that the result is to have implemented and tested a system that accomplishes your use cases._
 
 Week 1:
 
-- lat/long station data table
+- latitude/longitude station data table
 - weather data scraping
 - data cleaning
 	- weather
