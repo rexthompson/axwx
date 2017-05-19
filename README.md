@@ -1,3 +1,5 @@
+![Logo](https://raw.githubusercontent.com/rexthompson/Ax-Wx/master/images/axwx-logo.png "Logo")
+
 # DATA515-FinalProject
 # Ax/Wx
 Final Project for DATA 515, Spring 2017
