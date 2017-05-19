@@ -1,4 +1,4 @@
-![Logo](https://raw.githubusercontent.com/rexthompson/Ax-Wx/master/images/axwx-logo.png "Logo")
+![Logo](https://raw.githubusercontent.com/rexthompson/Ax-Wx/master/images/axwx-logo.jpg "Logo")
 
 
 Ax/Wx - Traffic Accident / Weather Analysis - Design Specification
