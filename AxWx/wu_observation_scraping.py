@@ -137,5 +137,5 @@ def scrape_data_multiple_stations_and_days(station_ids, start_date,
 
 # station_ids = ['KWASEATT134', 'KWASEATT166']
 # data_dir = "/Users/Thompson/Desktop/DATA 515/" \
-           "Final Project/data/local/wu_station_data"
+#            "Final Project/data/local/wu_station_data"
 # scrape_data_multiple_stations_and_days(station_ids, 20160501, 20160503, data_dir)
