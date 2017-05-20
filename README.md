@@ -1,8 +1,4 @@
-![Logo](https://raw.githubusercontent.com/rexthompson/Ax-Wx/master/images/axwx-logo.jpg "Logo")
-
-<img src="https://raw.githubusercontent.com/rexthompson/Ax-Wx/master/images/axwx-logo.jpg" alt="Logo2" style="width: 200" ;"/>
-
-<img src=https://raw.githubusercontent.com/rexthompson/Ax-Wx/master/images/axwx-logo.jpg alt="Logo3" width="200" height="200" />
+<img src=https://raw.githubusercontent.com/rexthompson/axwx/master/images/axwx-logo.jpg alt="Logo3" width="200" height="200" />
 
 # DATA515-FinalProject
 # Ax/Wx
