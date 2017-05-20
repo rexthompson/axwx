@@ -7,17 +7,19 @@ Code to scrape various datasets from wunderground's PWS network
 """
 
 import csv
+import os
 import time
 
 from bs4 import BeautifulSoup
 import numpy as np
 import pandas as pd
+import pickle
 import requests
 
 
 def scrape_data_one_day(station_id, year, month, day):
     """
-    Retrieve PWS data for given station and a given day
+    Retrieve PWS data for a single station and a single day
     :param station_id: string
         PWS station ID
     :param year: int
@@ -57,12 +59,12 @@ def scrape_data_one_day(station_id, year, month, day):
 def scrape_data_multi_day(station_id, start_date, end_date,
                           delay=3, combined_df=None):
     """
-    Retrieve PWS data for given station and a given date range
+    Retrieve PWS data for a single station over a given date range
     :param station_id: string
         PWS station ID
-    :param startdate: int (yyyymmdd)
+    :param start_date: int (yyyymmdd)
         start date for data retrieval
-    :param enddate: int (yyyymmdd)
+    :param end_date: int (yyyymmdd)
         end date for data retrieval
     :param delay: int
         delay between requests to WU server (seconds)
@@ -106,6 +108,35 @@ def scrape_data_multi_day(station_id, start_date, end_date,
 # single_day = scrape_data_one_day(station_id="KWAEDMON15",
 # year=2016, month=9, day=10)
 # multi_day = scrape_data_multi_day("KWAEDMON15", 20170217, 20170219)
+
+
+def scrape_data_multi_stations_and_days(station_ids, start_date, end_date, data_dir, delay=1):
+    """
+    Retrieve PWS data for multiple stations over a given date range
+    :param station_ids: list
+        WU PWS station IDs 
+    :param start_date: int (yyyymmdd)
+        start date for data retrieval
+    :param end_date: int (yyyymmdd)
+        end date for data retrieval
+    :param data_dir: str
+        data directory to which to save pickle files for each station
+    :param delay: int
+        delay between requests to WU server (seconds)
+    :return: None (files saved to given directory)
+    """
+
+    orig_dir = os.getcwd()
+    os.chdir(data_dir)
+    for station in station_ids:
+        df = scrape_data_multi_day(station, start_date, end_date, delay)
+        filename = station + ".p"
+        pickle.dump(df, open(filename, "wb"))
+    os.chdir(orig_dir)
+
+station_ids = ['KWASEATT134','KWASEATT166']
+data_dir = "/Users/Thompson/Desktop/DATA 515/Final Project/data/local/wu_station_data"
+scrape_data_multi_stations_and_days(station_ids, 20160501, 20160503, data_dir)
 
 
 def scrape_station_info(state="WA"):
