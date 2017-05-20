@@ -122,3 +122,50 @@ def scrape_lat_lon(station_info_csv='station_info-1.csv',
                                        'Longitude': long_list,
                                        'Elevation': elev_list})
             station_df.to_csv(new_file_name)
+
+
+def subset_stations_by_coords(station_data_csv, lat_range, lon_range):
+    """
+    Subset station metadata by latitude and longitude
+    :param station_data_csv: str
+        filename of csv with station metadata (from scrape_lat_lon)
+    :param lat_range: 2-element list
+        min and max latitude range, e.g. [47.4, 47.8]
+    :param lon_range: 2-element list
+        min and max longitude range, e.g. [-122.5, -122.2]
+    :return: pandas.DataFrame with station metadata subset by lat/lon bounds
+    """
+
+    lat_range.sort()
+    lon_range.sort()
+
+    df = pd.read_csv(station_data_csv, index_col=1)
+    df = df.dropna(subset=["Latitude", "Longitude"])
+    df = df[(df["Latitude"] >= lat_range[0]) &
+            (df["Latitude"] <= lat_range[1]) &
+            (df["Longitude"] >= lon_range[0]) &
+            (df["Longitude"] <= lon_range[1])]
+
+    return df
+
+
+def get_station_ids_by_coords(station_data_csv, lat_range, lon_range):
+    """
+    Wrapper around subset_stations_by_coords; returns just the IDs of the stations in a box
+    :param station_data_csv: str
+        filename of csv with station metadata (from scrape_lat_lon)
+    :param lat_range: 2-element list
+        min and max latitude range, e.g. [47.4, 47.8]
+    :param lon_range: 2-element list
+        min and max longitude range, e.g. [-122.5, -122.2]
+    :return: list of station IDs (strings)
+    """
+    df = subset_stations_by_coords(station_data_csv, lat_range, lon_range)
+    return list(df.index)
+
+# TESTING
+station_data_csv = "../data/station_data.csv"
+lat_range = [47.4, 47.8]
+lon_range = [-122.5, -122.2]
+
+print(get_station_ids_by_coords(station_data_csv, lat_range, lon_range))

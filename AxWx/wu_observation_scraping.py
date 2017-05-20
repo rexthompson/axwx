@@ -2,7 +2,7 @@
 """
 Weather Underground PWS Observation Scraping Module
 
-Code to scrape observation datafrom wunderground's PWS network
+Code to scrape observation data from wunderground's PWS network
 
 """
 
@@ -54,7 +54,7 @@ def scrape_data_one_day(station_id, year, month, day):
     return data_df
 
 
-def scrape_data_multi_day(station_id, start_date, end_date,
+def scrape_data_multiple_day(station_id, start_date, end_date,
                           delay=3, combined_df=None):
     """
     Retrieve PWS data for a single station over a given date range
@@ -110,7 +110,7 @@ def scrape_data_multi_day(station_id, start_date, end_date,
 # multi_day = scrape_data_multi_day("KWAEDMON15", 20170217, 20170219)
 
 
-def scrape_data_multi_stations_and_days(station_ids, start_date,
+def scrape_data_multiple_stations_and_days(station_ids, start_date,
                                         end_date, data_dir, delay=1):
     """
     Retrieve PWS data for multiple stations over a given date range
@@ -138,4 +138,4 @@ def scrape_data_multi_stations_and_days(station_ids, start_date,
 station_ids = ['KWASEATT134', 'KWASEATT166']
 data_dir = "/Users/Thompson/Desktop/DATA 515/" \
            "Final Project/data/local/wu_station_data"
-scrape_data_multi_stations_and_days(station_ids, 20160501, 20160503, data_dir)
+scrape_data_multiple_stations_and_days(station_ids, 20160501, 20160503, data_dir)
