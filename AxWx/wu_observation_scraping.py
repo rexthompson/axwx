@@ -66,6 +66,8 @@ def scrape_data_multi_day(station_id, start_date, end_date,
         end date for data retrieval
     :param delay: int
         delay between requests to WU server (seconds)
+    :param combined_df: pandas.DataFrame
+        DataFrame to which to append new observations
     :return: pandas DataFrame with combined data for period requested
     """
 
@@ -108,11 +110,12 @@ def scrape_data_multi_day(station_id, start_date, end_date,
 # multi_day = scrape_data_multi_day("KWAEDMON15", 20170217, 20170219)
 
 
-def scrape_data_multi_stations_and_days(station_ids, start_date, end_date, data_dir, delay=1):
+def scrape_data_multi_stations_and_days(station_ids, start_date,
+                                        end_date, data_dir, delay=1):
     """
     Retrieve PWS data for multiple stations over a given date range
     :param station_ids: list
-        WU PWS station IDs 
+        WU PWS station IDs
     :param start_date: int (yyyymmdd)
         start date for data retrieval
     :param end_date: int (yyyymmdd)
@@ -132,7 +135,7 @@ def scrape_data_multi_stations_and_days(station_ids, start_date, end_date, data_
         pickle.dump(df, open(filename, "wb"))
     os.chdir(orig_dir)
 
-station_ids = ['KWASEATT134','KWASEATT166']
-data_dir = "/Users/Thompson/Desktop/DATA 515/Final Project/data/local/wu_station_data"
+station_ids = ['KWASEATT134', 'KWASEATT166']
+data_dir = "/Users/Thompson/Desktop/DATA 515/" \
+           "Final Project/data/local/wu_station_data"
 scrape_data_multi_stations_and_days(station_ids, 20160501, 20160503, data_dir)
-

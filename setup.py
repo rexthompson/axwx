@@ -27,6 +27,23 @@ opts = dict(name=NAME,
             install_requires=REQUIRES,
             requires=REQUIRES)
 
-
 if __name__ == '__main__':
     setup(**opts)
+
+
+# PACKAGES = ['csv', 'os', ]
+
+# import csv
+# import os
+# import time
+
+# import pandas as pd
+# import pickle
+# import requests
+
+# import pandas as pd
+# import urllib3
+# from bs4 import BeautifulSoup as BS
+# import numpy as np
+# import requests
+# import time

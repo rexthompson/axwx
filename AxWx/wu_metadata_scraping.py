@@ -9,8 +9,10 @@ Code to scrape PWS network metadata
 import pandas as pd
 import urllib3
 from bs4 import BeautifulSoup as BS
+import numpy as np
 import requests
-import time
+# import time
+
 
 def scrape_station_info(state="WA"):
 
@@ -57,9 +59,12 @@ def scrape_station_info(state="WA"):
 # all_info = scrape_station_info()
 # print(all_info[:,0][0:30])
 
-# TODO: update second function below to accept all_station_info from first function above
+# TODO: update second function below to accept
+# TODO: all_station_info from first function above
 
-def scrape_lat_lon(station_info_csv='station_info-1.csv', new_file_name='latlonstations.csv'):
+
+def scrape_lat_lon(station_info_csv='station_info-1.csv',
+                   new_file_name='latlonstations.csv'):
 
     """
     Add latitude, longitude and elevation data to csv of station metadata
@@ -70,21 +75,24 @@ def scrape_lat_lon(station_info_csv='station_info-1.csv', new_file_name='latlons
     :return: None (save updated csv to new_file_name)
     """
 
-    station = pd.read_csv('station_info-1.csv', sep = ',', index_col = None,
-                          names=['Index','StationID','Neighborhood','City','WeatherStation']).ix[2:,1:]
-    stationIDs = station.ix[:,0]
-    stationIDs = stationIDs.reset_index().ix[:,1]
+    station = pd.read_csv(station_info_csv, sep=',', index_col=None,
+                          names=['Index', 'StationID', 'Neighborhood',
+                                 'City', 'WeatherStation']).ix[2:, 1:]
+    station_ids = station.ix[:, 0]
+    station_ids = station_ids.reset_index().ix[:, 1]
 
-    http = urllib3.PoolManager(maxsize = 10, block = True, cert_reqs = 'CERT_REQUIRED')
+    http = urllib3.PoolManager(maxsize=10, block=True,
+                               cert_reqs='CERT_REQUIRED')
 
     lat_list = []
     long_list = []
     elev_list = []
     station_list = []
 
-    for i in range(len(stationIDs)):
+    for i in range(len(station_ids)):
         try:
-            url = 'https://api.wunderground.com/weatherstation/WXDailyHistory.asp?ID={0}&format=XML'.format(stationIDs[i])
+            url = 'https://api.wunderground.com/weatherstation/' \
+                  'WXDailyHistory.asp?ID={0}&format=XML'.format(station_ids[i])
             r = http.request('GET', url, preload_content=False)
             soup = BS(r, 'xml')
 
@@ -95,9 +103,12 @@ def scrape_lat_lon(station_info_csv='station_info-1.csv', new_file_name='latlons
             lat_list.append(lat[0].get_text())
             long_list.append(long[0].get_text())
             elev_list.append(elev[0].get_text())
-            station_list.append(stationIDs[i])
-            print('Station', i,'Lat',lat.get_text())
-            station_df = pd.DataFrame({'StationID': station_list, 'Latitude': lat_list, 'Longitude': long_list, 'Elevation': elev_list})
+            station_list.append(station_ids[i])
+            print('Station' + str(i) + 'Lat' + lat.get_text())
+            station_df = pd.DataFrame({'StationID': station_list,
+                                       'Latitude': lat_list,
+                                       'Longitude': long_list,
+                                       'Elevation': elev_list})
             station_df.to_csv('latlongstations.csv')
         except Exception as err:
             print(err)
@@ -105,9 +116,9 @@ def scrape_lat_lon(station_info_csv='station_info-1.csv', new_file_name='latlons
             lat_list.append('NA')
             long_list.append('NA')
             elev_list.append('NA')
-            station_list.append(stationIDs[i])
+            station_list.append(station_ids[i])
             station_df = pd.DataFrame({'StationID': station_list,
-                               'Latitude': lat_list,
-                               'Longitude': long_list,
-                               'Elevation': elev_list})
-            station_df.to_csv('latlonstations.csv')
+                                       'Latitude': lat_list,
+                                       'Longitude': long_list,
+                                       'Elevation': elev_list})
+            station_df.to_csv(new_file_name)
