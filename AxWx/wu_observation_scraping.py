@@ -1,8 +1,8 @@
 
 """
-Weather Underground Scraping Module
+Weather Underground PWS Observation Scraping Module
 
-Code to scrape various datasets from wunderground's PWS network
+Code to scrape observation datafrom wunderground's PWS network
 
 """
 
@@ -10,8 +10,6 @@ import csv
 import os
 import time
 
-from bs4 import BeautifulSoup
-import numpy as np
 import pandas as pd
 import pickle
 import requests
@@ -138,49 +136,3 @@ station_ids = ['KWASEATT134','KWASEATT166']
 data_dir = "/Users/Thompson/Desktop/DATA 515/Final Project/data/local/wu_station_data"
 scrape_data_multi_stations_and_days(station_ids, 20160501, 20160503, data_dir)
 
-
-def scrape_station_info(state="WA"):
-
-    """
-    A script to scrape the station information published at the following URL:
-    https://www.wunderground.com/weatherstation/ListStations.asp?
-    selectedState=WA&selectedCountry=United+States&MR=1
-    :param state: US State by which to subset WU Station table
-    :return: numpy array with station info
-    """
-    url = "https://www.wunderground.com/" \
-          "weatherstation/ListStations.asp?selectedState=" \
-          + state + "&selectedCountry=United+States&MR=1"
-    raw_site_content = requests.get(url).content
-    soup = BeautifulSoup(raw_site_content, 'html.parser')
-
-    list_stations_info = soup.find_all("tr")
-
-    all_station_info = np.array(['id', 'neighborhood', 'city', 'type'])
-
-    for i in range(1, len(list_stations_info)):  # start at 1 to omit headers
-
-        station_info = str(list_stations_info[i]).splitlines()
-
-        # pull out station info
-        station_id = station_info[1].split('ID=')[1].split('"')[0]
-        station_neighborhood = station_info[2].split('<td>')[1]
-        station_neighborhood = station_neighborhood.split('\xa0')[0]
-        station_city = station_info[3].split('<td>')[1].split('\xa0')[0]
-        station_type = station_info[4].split('station-type">')[1]
-        station_type = station_type.split('\xa0')[0]
-
-        station_id = station_id.strip()
-        station_neighborhood = station_neighborhood.strip()
-        station_city = station_city.strip()
-        station_type = station_type.strip()
-
-        all_station_info = np.vstack([all_station_info,
-                                      [station_id, station_neighborhood,
-                                       station_city, station_type]])
-
-    return all_station_info
-
-
-# all_info = scrape_station_info()
-# print(all_info[:,0][0:30])
