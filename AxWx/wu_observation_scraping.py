@@ -130,12 +130,12 @@ def scrape_data_multiple_stations_and_days(station_ids, start_date,
     orig_dir = os.getcwd()
     os.chdir(data_dir)
     for station in station_ids:
-        df = scrape_data_multi_day(station, start_date, end_date, delay)
+        df = scrape_data_multiple_day(station, start_date, end_date, delay)
         filename = station + ".p"
         pickle.dump(df, open(filename, "wb"))
     os.chdir(orig_dir)
 
-station_ids = ['KWASEATT134', 'KWASEATT166']
-data_dir = "/Users/Thompson/Desktop/DATA 515/" \
+# station_ids = ['KWASEATT134', 'KWASEATT166']
+# data_dir = "/Users/Thompson/Desktop/DATA 515/" \
            "Final Project/data/local/wu_station_data"
-scrape_data_multiple_stations_and_days(station_ids, 20160501, 20160503, data_dir)
+# scrape_data_multiple_stations_and_days(station_ids, 20160501, 20160503, data_dir)
