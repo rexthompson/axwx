@@ -164,8 +164,9 @@ def get_station_ids_by_coords(station_data_csv, lat_range, lon_range):
     return list(df.index)
 
 # TESTING
-station_data_csv = "../data/station_data.csv"
-lat_range = [47.4, 47.8]
-lon_range = [-122.5, -122.2]
+# station_data_csv = "data/station_data.csv"
+# lat_range = [47.4, 47.8]
+# lon_range = [-122.5, -122.2]
 
-print(get_station_ids_by_coords(station_data_csv, lat_range, lon_range))
+# print(get_station_ids_by_coords(station_data_csv, lat_range, lon_range))
+
