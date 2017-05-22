@@ -3,7 +3,6 @@
 Weather Underground PWS Metadata Scraping Module
 
 Code to scrape PWS network metadata
-
 """
 
 import pandas as pd
@@ -12,7 +11,6 @@ from bs4 import BeautifulSoup as BS
 import numpy as np
 import requests
 # import time
-
 
 def scrape_station_info(state="WA"):
 
@@ -72,8 +70,8 @@ def scrape_station_info(state="WA"):
 # TODO: all_station_info from first function above
 
 
-def scrape_lat_lon(station_info_csv='station_info-1.csv',
-                   new_file_name='latlonstations.csv'):
+def scrape_lat_lon(station_info_csv='./data/station_info-1.csv',
+                   new_file_name='./data/latlonstations.csv'):
 
     """
     Add latitude, longitude and elevation data to csv of station metadata
@@ -105,20 +103,21 @@ def scrape_lat_lon(station_info_csv='station_info-1.csv',
             r = http.request('GET', url, preload_content=False)
             soup = BS(r, 'xml')
 
-            lat = soup.find_all('latitude')
-            long = soup.find_all('longitude')
-            elev = soup.find_all('elevation')
+            lat = soup.find_all('latitude')[0]
+            long = soup.find_all('longitude')[0]
+            elev = soup.find_all('elevation')[0]
 
-            lat_list.append(lat[0].get_text())
-            long_list.append(long[0].get_text())
-            elev_list.append(elev[0].get_text())
+            lat_list.append(lat.get_text())
+            long_list.append(long.get_text())
+            elev_list.append(elev.get_text())
             station_list.append(station_ids[i])
             print('Station' + str(i) + 'Lat' + lat.get_text())
             station_df = pd.DataFrame({'StationID': station_list,
                                        'Latitude': lat_list,
                                        'Longitude': long_list,
                                        'Elevation': elev_list})
-            station_df.to_csv('latlongstations.csv')
+            station_df.to_csv(new_file_name)
+
         except Exception as err:
             print(err)
             print('Station is empty.')
@@ -178,4 +177,3 @@ def get_station_ids_by_coords(station_data_csv, lat_range, lon_range):
 # lon_range = [-122.5, -122.2]
 
 # print(get_station_ids_by_coords(station_data_csv, lat_range, lon_range))
-
