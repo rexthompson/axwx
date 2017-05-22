@@ -28,7 +28,7 @@ def scrape_station_info(state="WA"):
 
     list_stations_info = soup.find_all("tr")
 
-    all_station_info = np.array(['id', 'neighborhood', 'city', 'type'])
+    all_station_info = np.array(['id', 'neighborhood', 'city', 'type', 'lat', 'lon', 'elevation'])
 
     for i in range(1, len(list_stations_info)):  # start at 1 to omit headers
 
@@ -47,9 +47,18 @@ def scrape_station_info(state="WA"):
         station_city = station_city.strip()
         station_type = station_type.strip()
 
+        # TODO: run lat-lon-elev scraper
+
+
+        # TODO: remove lines below after lat/lon/elevation output by function above
+        lat = "temp"
+        lon = "temp"
+        elevation = "temp"
+
         all_station_info = np.vstack([all_station_info,
                                       [station_id, station_neighborhood,
-                                       station_city, station_type]])
+                                       station_city, station_type,
+                                       lat, lon, elevation]])
 
     return all_station_info
 
