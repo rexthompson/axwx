@@ -1,4 +1,3 @@
-
 """
 Weather Underground PWS Metadata Scraping Module
 
@@ -86,6 +85,66 @@ def scrape_lat_lon(station_info_csv='./data/station_info-1.csv',
     long_list = []
     elev_list = []
     station_list = []
+
+    for i in range(len(station_ids)):
+        try:
+            url = 'https://api.wunderground.com/weatherstation/' \
+                  'WXDailyHistory.asp?ID={0}&format=XML'.format(station_ids[i])
+            r = http.request('GET', url, preload_content=False)
+            soup = BS(r, 'xml')
+
+            lat = soup.find_all('latitude')[0]
+            long = soup.find_all('longitude')[0]
+            elev = soup.find_all('elevation')[0]
+
+            lat_list.append(lat.get_text())
+            long_list.append(long.get_text())
+            elev_list.append(elev.get_text())
+            station_list.append(station_ids[i])
+            print('Station' + str(i) + 'Lat' + lat.get_text())
+            station_df = pd.DataFrame({'StationID': station_list,
+                                       'Latitude': lat_list,
+                                       'Longitude': long_list,
+                                       'Elevation': elev_list})
+            station_df.to_csv(new_file_name)
+
+        except Exception as err:
+            print(err)
+            print('Station is empty.')
+            lat_list.append('NA')
+            long_list.append('NA')
+            elev_list.append('NA')
+            station_list.append(station_ids[i])
+            station_df = pd.DataFrame({'StationID': station_list,
+                                       'Latitude': lat_list,
+                                       'Longitude': long_list,
+                                       'Elevation': elev_list})
+            station_df.to_csv(new_file_name)
+
+def scrape_lat_lon_fly(stationID):
+
+    """
+    Add latitude, longitude and elevation data to csv of station metadata
+    :param station_info_csv: str
+        filename of csv with station info (i.e. ID, Neighborhood, City, Type)
+    :param new_file_name: str
+        filename for csv with updated station info (i.e. lat, lon, altitude)
+    :return: None (save updated csv to new_file_name)
+    """
+
+    # station = pd.read_csv(station_info_csv, sep=',', index_col=None,
+    #                       names=['Index', 'StationID', 'Neighborhood',
+    #                              'City', 'WeatherStation']).ix[2:, 1:]
+    # station_ids = station.ix[:, 0]
+    # station_ids = station_ids.reset_index().ix[:, 1]
+
+    http = urllib3.PoolManager(maxsize=10, block=True,
+                               cert_reqs='CERT_REQUIRED')
+
+    # lat_list = []
+    # long_list = []
+    # elev_list = []
+    # station_list = []
 
     for i in range(len(station_ids)):
         try:
