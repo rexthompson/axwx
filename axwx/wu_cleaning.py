@@ -8,28 +8,45 @@ Functions to clean WU PWS observation data
 
 def clean_obs_data(df):
     """
-    Clean WU PWS data for a single station.
-    Currently just fills missing values w/ NaN's.
+    Clean WU PWS data for a single station. Currently just fills missing values w/ NaN's.
     :param df: pandas.DataFrame
         raw data
     :return: cleaned pandas.DataFrame
     """
 
-    for col in df.columns:
-        df[col] = pd.to_numeric(df[col], errors='ignore')
+    df_clean = copy.deepcopy(df)
 
-    ignore = ["Time", "WindDirection", "SoftwareType",
-              "Conditions", "Clouds", "DateUTC"]
+    # convert strings to numeric where possible
+    for col in df_clean.columns:
+        df_clean[col] = pd.to_numeric(df_clean[col], errors='ignore')
 
-    for col in df.columns:
+    ignore = ["Time", "WindDirection", "SoftwareType", "Conditions", "Clouds", "DateUTC"]
+
+    # low/high limits
+    for col in df_clean.columns:
         if col == "TemperatureF":
-            df.loc[df[col] < 10, col] = np.nan
-            df.loc[df[col] > 125, col] = np.nan
+            df_clean.loc[df_clean[col] <= 10, col] = np.nan
+            df_clean.loc[df_clean[col] >= 125, col] = np.nan
         elif col == "DewpointF":
-            df.loc[df[col] == -99.9, col] = np.nan
+            df_clean.loc[df_clean[col] == -99.9, col] = np.nan
+            df_clean.loc[df_clean[col] >= 80, col] = np.nan
+            # df_clean.loc[df_clean[col] >= df_clean["TemperatureF"], col] = np.nan
         elif col == "PressureIn":
-            df.loc[df[col] < 25, col] = np.nan
+            df_clean.loc[df_clean[col] <= 25, col] = np.nan
+            df_clean.loc[df_clean[col] >= 31.5, col] = np.nan
+        elif col == "WindDirectionDegrees":
+            df_clean.loc[df_clean[col] < 0, col] = np.nan
+            df_clean.loc[df_clean[col] > 360, col] = np.nan
+        elif col == "Humidity":
+            df_clean.loc[df_clean[col] <= 0, col] = np.nan
+            df_clean.loc[df_clean[col] > 100, col] = np.nan
         elif col not in ignore:
-            df.loc[df[col] < 0, col] = np.nan
+            df_clean.loc[df_clean[col] < 0, col] = np.nan
 
-    return df
+    # TODO: add checks for outliers based on variance of surrounding data
+
+
+    # TODO: add checks for frozen values
+
+
+    return df_clean

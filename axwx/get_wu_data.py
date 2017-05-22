@@ -8,7 +8,7 @@ lon_range = [-122.5, -122.2]
 all_station_ids_in_box = wumeta.get_station_ids_by_coords(station_data_csv, lat_range, lon_range)
 
 # subset station id list to reduce length of pull
-station_ids = all_station_ids_in_box[100:200]
+station_ids = all_station_ids_in_box[300:]
 
 print("Attempting to pull data for the following stations:")
 print(station_ids)
