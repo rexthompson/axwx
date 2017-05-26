@@ -1,9 +1,7 @@
-
 """
 Weather Underground PWS Metadata Scraping Module
 
 Code to scrape PWS network metadata
-
 """
 
 import pandas as pd
@@ -12,7 +10,6 @@ from bs4 import BeautifulSoup as BS
 import numpy as np
 import requests
 # import time
-
 
 def scrape_station_info(state="WA"):
 
@@ -31,10 +28,10 @@ def scrape_station_info(state="WA"):
 
     list_stations_info = soup.find_all("tr")
 
-    all_station_info = np.array(['id', 'neighborhood', 'city', 'type'])
+    all_station_info = np.array(['id', 'neighborhood', 'city', 'type', 'lat',
+    'lon', 'elevation'])
 
     for i in range(1, len(list_stations_info)):  # start at 1 to omit headers
-
         station_info = str(list_stations_info[i]).splitlines()
 
         # pull out station info
@@ -49,79 +46,50 @@ def scrape_station_info(state="WA"):
         station_neighborhood = station_neighborhood.strip()
         station_city = station_city.strip()
         station_type = station_type.strip()
+        lat,lon,elev = scrape_lat_lon_fly(station_id)
 
         all_station_info = np.vstack([all_station_info,
                                       [station_id, station_neighborhood,
-                                       station_city, station_type]])
+                                       station_city, station_type,
+                                       lat, lon, elev]])
+        all_station_info = pd.DataFrame(all_station_info)
+        all_station_info.columns = all_station_info.ix[0,:]
 
-    return all_station_info
-
-# all_info = scrape_station_info()
-# print(all_info[:,0][0:30])
-
-# TODO: update second function below to accept
-# TODO: all_station_info from first function above
+    #do some dataframe editing
+    all_station_info = all_station_info.drop(all_station_info.index[0]).reset_index()
+    all_station_info = all_station_info.drop(all_station_info.columns[0], axis=1)
+    return(all_station_info.to_csv('./data/station_data_from_FUN.csv'))
 
 
-def scrape_lat_lon(station_info_csv='station_info-1.csv',
-                   new_file_name='latlonstations.csv'):
+def scrape_lat_lon_fly(stationID):
 
     """
-    Add latitude, longitude and elevation data to csv of station metadata
-    :param station_info_csv: str
-        filename of csv with station info (i.e. ID, Neighborhood, City, Type)
-    :param new_file_name: str
-        filename for csv with updated station info (i.e. lat, lon, altitude)
-    :return: None (save updated csv to new_file_name)
+    Add latitude, longitude and elevation data to the stationID that is
+    inputted as the argument to the function. Boom.
+    :param stationID: str
+        a unique identifier for the weather underground personal
+        weather station
+    :return: (latitude,longitude,elevation) as a tuple. Double Boom.
     """
-
-    station = pd.read_csv(station_info_csv, sep=',', index_col=None,
-                          names=['Index', 'StationID', 'Neighborhood',
-                                 'City', 'WeatherStation']).ix[2:, 1:]
-    station_ids = station.ix[:, 0]
-    station_ids = station_ids.reset_index().ix[:, 1]
 
     http = urllib3.PoolManager(maxsize=10, block=True,
                                cert_reqs='CERT_REQUIRED')
+    try:
+        url = 'https://api.wunderground.com/weatherstation/' \
+              'WXDailyHistory.asp?ID={0}&format=XML'.format(stationID)
+        r = http.request('GET', url, preload_content=False)
+        soup = BS(r, 'xml')
 
-    lat_list = []
-    long_list = []
-    elev_list = []
-    station_list = []
+        lat = soup.find_all('latitude')[0].get_text()
+        long = soup.find_all('longitude')[0].get_text()
+        elev = soup.find_all('elevation')[0].get_text()
+        return(lat,long,elev)
 
-    for i in range(len(station_ids)):
-        try:
-            url = 'https://api.wunderground.com/weatherstation/' \
-                  'WXDailyHistory.asp?ID={0}&format=XML'.format(station_ids[i])
-            r = http.request('GET', url, preload_content=False)
-            soup = BS(r, 'xml')
-
-            lat = soup.find_all('latitude')
-            long = soup.find_all('longitude')
-            elev = soup.find_all('elevation')
-
-            lat_list.append(lat[0].get_text())
-            long_list.append(long[0].get_text())
-            elev_list.append(elev[0].get_text())
-            station_list.append(station_ids[i])
-            print('Station' + str(i) + 'Lat' + lat.get_text())
-            station_df = pd.DataFrame({'StationID': station_list,
-                                       'Latitude': lat_list,
-                                       'Longitude': long_list,
-                                       'Elevation': elev_list})
-            station_df.to_csv('latlongstations.csv')
-        except Exception as err:
-            print(err)
-            print('Station is empty.')
-            lat_list.append('NA')
-            long_list.append('NA')
-            elev_list.append('NA')
-            station_list.append(station_ids[i])
-            station_df = pd.DataFrame({'StationID': station_list,
-                                       'Latitude': lat_list,
-                                       'Longitude': long_list,
-                                       'Elevation': elev_list})
-            station_df.to_csv(new_file_name)
+    except Exception as err:
+        lat = 'NA'
+        long = 'NA'
+        elev = 'NA'
+        return(lat,long,elev)
 
 
 def subset_stations_by_coords(station_data_csv, lat_range, lon_range):
@@ -169,4 +137,3 @@ def get_station_ids_by_coords(station_data_csv, lat_range, lon_range):
 # lon_range = [-122.5, -122.2]
 
 # print(get_station_ids_by_coords(station_data_csv, lat_range, lon_range))
-
