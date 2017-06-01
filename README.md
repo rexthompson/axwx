@@ -2,6 +2,9 @@
 
 Ax/Wx
 =====
+Ax/Wx is a collision and weather analysis tool that can enhance the WSP collision database with objective observations from nearby personal weather stations. Most weather observations come from major weather stations that may not be able to detect the weather as accurately as a closer weather station at a particular location.
+
+To use Ax/Wx, you will need to clone this repository onto your computer and follow the instructions at the bottom of this page.
 
 Organization of the Project
 ---------------------------
@@ -43,13 +46,5 @@ axwx/
   |- requirements.txt
 ```
 
-Module code
------------
-
-Project Data
-------------
-
-Testing
--------
-
-According to the project description, this file will "give an overview of the project". It also serve as the landing page for this github repository. 
+Using the Accident-Weather Analysis Tool (`Ax/Wx`)
+--------------------------------------------------
