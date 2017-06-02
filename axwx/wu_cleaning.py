@@ -43,10 +43,8 @@ def clean_obs_data(df):
         elif col not in ignore:
             df_clean.loc[df_clean[col] < 0, col] = np.nan
 
+    # TODO: ADD CODE TO AGGREGATE PRECIPITATION DATA!! May write as separate function...?
     # TODO: add checks for outliers based on variance of surrounding data
-
-
     # TODO: add checks for frozen values
-
 
     return df_clean
