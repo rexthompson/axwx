@@ -59,6 +59,7 @@ df['date'] = dates.date
 df['time_of_day'] = dates.time
 df['month'] = dates.month
 df['day_of_week'] = dates.dayofweek
+df['hour'] = dates.hour
 
 # keep columns of interest
 print('removing columns not of interest...')
@@ -68,6 +69,7 @@ df = df[['lat',
          'time_of_day',
          'month',
          'day_of_week',
+         'hour',
          'MV_Drvr_Restr_Sys_Typ_Cd',
          'MV_Pasngr_Restr_Sys_Typ_Cd',
          'Colli_Dtl_Info_Rdwy_Surfc_Cond_Typ_Cd',
@@ -116,5 +118,5 @@ df = df.rename(columns={
     'MV_Drvr_Air_Bag_Typ_Cd': 'airbag'})
 
 # write cleaned/formatted data to new csv
-df.to_csv('~/Desktop/WSP_Crash_Data_Cleaned2.csv', sep=',')
+df.to_csv('~/Desktop/WSP_Crash_Data_Cleaned.csv', sep=',')
 print('cleaned csv file exported!')
