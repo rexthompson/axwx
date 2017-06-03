@@ -1,4 +1,5 @@
 /data/local/*
+/doc/local/*
 /Supplementals/*
 .idea/*
 /*/.ipynb_checkpoints/*

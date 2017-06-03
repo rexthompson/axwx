@@ -16,7 +16,7 @@ print(station_ids)
 data_dir = "/Users/Thompson/Desktop/DATA 515/" \
            "Final Project/data/local/wu_station_data/full_period/"
 
-wuobs.scrape_data_multiple_stations_and_days(station_ids, 20160430, 20170430, data_dir)
+# wuobs.scrape_data_multiple_stations_and_days(station_ids, 20160430, 20170430, data_dir)
 
 # filepath = print(data_dir + "IWAKIRKL2.p")
 # print(filepath)

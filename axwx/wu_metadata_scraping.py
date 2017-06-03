@@ -96,11 +96,13 @@ def scrape_lat_lon_fly(stationID):
         return(lat,long,elev)
 
 
-def subset_stations_by_coords(station_data_csv, lat_range, lon_range):
+def subset_stations_by_coords(station_data, lat_range, lon_range):
     """
     Subset station metadata by latitude and longitude
-    :param station_data_csv: str
+    :param station_data_csv: str or Pandas.DataFrame
         filename of csv with station metadata (from scrape_lat_lon)
+        or
+        Pandas.DataFrame with station metadata (from scrape_lat_lon)
     :param lat_range: 2-element list
         min and max latitude range, e.g. [47.4, 47.8]
     :param lon_range: 2-element list
@@ -111,8 +113,15 @@ def subset_stations_by_coords(station_data_csv, lat_range, lon_range):
     lat_range.sort()
     lon_range.sort()
 
-    df = pd.read_csv(station_data_csv, index_col=1)
-    df = df.dropna(subset=["Latitude", "Longitude"])
+    if isinstance(station_data, str):
+        df = pd.read_csv(station_data, index_col=1)
+        df = df.dropna(subset=["Latitude", "Longitude"])
+    elif isinstance(station_data, pd.DataFrame):
+        df = station_data
+    else:
+        pass
+        # TODO: add exception here if type not supported
+
     df = df[(df["Latitude"] >= lat_range[0]) &
             (df["Latitude"] <= lat_range[1]) &
             (df["Longitude"] >= lon_range[0]) &

@@ -13,18 +13,18 @@ packages = ['csv', 'os', 'time', 'pandas', 'pickle', 'requests',
             'urllib3', 'bs4.BeautifulSoup', 'numpy']
 
 opts = dict(name="NAME",
-            #maintainer="MAINTAINER",
-            #maintainer_email="MAINTAINER_EMAIL",
-            #description="DESCRIPTION",
+            #maintainer="MAINTAINER",  # TODO
+            #maintainer_email="MAINTAINER_EMAIL",  # TODO
+            #description="DESCRIPTION",  # TODO
             #long_description="LONG_DESCRIPTION",
             #url="URL",
             #download_url="DOWNLOAD_URL",
             #license="LICENSE",
             #classifiers="CLASSIFIERS",
-            #author="AUTHOR",
-            #author_email="AUTHOR_EMAIL",
+            #author="AUTHOR",  # TODO
+            #author_email="AUTHOR_EMAIL",  # TODO
             #platforms="PLATFORMS",
-            #version="VERSION",
+            #version="VERSION",  # TODO
             packages=packages)#,
             #package_data="PACKAGE_DATA",
             #install_requires="REQUIRES",
