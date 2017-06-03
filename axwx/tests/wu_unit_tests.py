@@ -8,7 +8,7 @@ class TestGetData(unittest.TestCase):
 
     # Test number of columns
     def test_num_columns(self):
-        #define the known number of cols we want
+        #define the known number of cols, rows and headers we should get
         num_col = 7
         num_row = 4
         headers = np.asarray(['id', 'neighborhood', 'city',
@@ -16,7 +16,7 @@ class TestGetData(unittest.TestCase):
         num_colt, num_rowt, headerst = scrape_station_info()
         self.assertEqual(num_colt, num_col)
         self.assertEqual(num_rowt, num_row)
-        #np.testing.assert_array_equal(headerst, headers)
         self.assertTrue((headerst == headers).all())
+
 if __name__ == '__main__':
     unittest.main()
