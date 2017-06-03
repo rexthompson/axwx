@@ -46,15 +46,19 @@ def scrape_station_info(state="WA"):
         station_neighborhood = station_neighborhood.strip()
         station_city = station_city.strip()
         station_type = station_type.strip()
+
+        # grab the latitude, longitude, and elevation metadata
         lat,lon,elev = scrape_lat_lon_fly(station_id)
 
-        all_station_info = np.vstack([all_station_info,
-                                      [station_id, station_neighborhood,
-                                       station_city, station_type,
-                                       lat, lon, elev]])
+        # put all data into an array
+        header = [station_id, station_neighborhood, station_city, station_type,
+        lat, lon, elev]
+        head_len = len(header)
+        all_station_info = np.vstack([all_station_info, header])
+
+
         all_station_info = pd.DataFrame(all_station_info)
         all_station_info.columns = all_station_info.ix[0,:]
-
     #do some dataframe editing
     all_station_info = all_station_info.drop(all_station_info.index[0]).reset_index()
     all_station_info = all_station_info.drop(all_station_info.columns[0], axis=1)
