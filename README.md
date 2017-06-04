@@ -29,9 +29,9 @@ axwx/
      |- station_data.csv
      |- station_data.xlsx
      |- station_info-1.csv
-  |- doc/
      |- CAT-DataDictionary.xlsx
      |- CAT-LookUp.accdb
+  |- doc/
      |- DesignSpecification.md
      |- FunctionalSpecification.md
   |- examples/
