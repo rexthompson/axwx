@@ -1,4 +1,5 @@
-# Unit tests for wu_cleaning.py
+# Unit tests for testing wu_metadata_scraping_test
+
 import unittest
 import numpy as np
 
@@ -6,9 +7,16 @@ from wu_metadata_scraping_test import scrape_station_info
 
 class TestGetData(unittest.TestCase):
 
-    # Test number of columns
+    """
+    This class performs a unit test for the wu_metadata_scraping.py dataset by 
+    testing the number of columns in the cleaned data set is equivalent 
+    to the cleaned data output in order to ensure data integrity.
+    """
     def test_num_columns(self):
-        #define the known number of cols, rows and headers we should get
+        """
+        Defining the known number of cols, rows and headers we
+        should get for check in the unit test.
+        """
         num_col = 7
         num_row = 4
         headers = np.asarray(['id', 'neighborhood', 'city',
