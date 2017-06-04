@@ -5,7 +5,7 @@ Functions to clean WU PWS observation data
 import copy
 import numpy as np
 import pandas as pd
-
+import pickle
 
 def clean_obs_data(df):
     """
@@ -52,4 +52,16 @@ def clean_obs_data(df):
 
     return df_clean
 
+def load_weather_data():
+    file_list = pd.read_csv('/Users/mgrant/MS_Data_Science/DATA_515/\
+    Weather_Project/Project_Git/Ax-Wx/data/weather_file_list.csv',  )
 
+    data = []
+    station = []
+
+    for i in range(1,5):
+        filename = file_list.ix[i][0]
+        data = pickle.load(open('%s' % filename, 'rb'))
+        data = pd.DataFrame(data)
+        print(data)
+    print(station[0])
