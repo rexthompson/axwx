@@ -5,7 +5,9 @@ Functions to clean WU PWS observation data
 import copy
 import numpy as np
 import pandas as pd
+import os
 import pickle
+
 
 def clean_obs_data(df):
     """
@@ -67,20 +69,29 @@ def enhance_wu_data(df):
     return df
 
 
-def load_weather_data():
-
-    file_list = pd.read_csv('/Users/mgrant/MS_Data_Science/DATA_515/Weather_Project/Project_Git/Ax-Wx/data/weather_file_list.csv')
-
-    data = []
-    station = []
-
-    for i in range(1,len(file_list)):
-        filename = file_list.ix[i][0]
-        station_name = file_list.ix[i][0].split('/')[-1].split('.')[0]
-        data = pickle.load(open('%s' % filename, 'rb'))
-        data = pd.DataFrame(data)
-        data['CumulativePrecip'] = np.cumsum(np.asarray(data['HourlyPrecipIn'], \
-        dtype=float))
-        clean_data = clean_obs_data(data)
-        with open('/Users/mgrant/MS_Data_Science/DATA_515/Weather_Project/Project_Git/Ax-Wx/data/local/cleaned/%s' % station_name + '_cleaned.p','wb') as f:
-            pickle.dump(clean_data, f)
+def clean_and_enhance_wu_data(raw_data_dir, cleaned_data_dir):
+    """
+    Clean and enhance raw WU data files (saved as Pickle files)
+    :param raw_data_dir: str
+        data directory where raw WU data binary files are stored
+    :param cleaned_data_dir: str
+        location to save cleaned WU data binary files
+    :return: None
+    """
+    os.chdir(raw_data_dir)
+    file_list = os.listdir()
+    for file in file_list:
+        try:
+            df = pickle.load(open(file, "rb"))
+            df = clean_obs_data(df)
+            df = enhance_wu_data(df)
+            filename_split = file.split(".")
+            if len(filename_split) == 1:
+                new_filename = filename_split + "_cleaned"
+            else:
+                new_filename = ''.join(filename_split[:-1]) + "_cleaned." + filename_split[-1]
+            print("new_filename = " + new_filename)
+            pickle.dump(df, open(cleaned_data_dir + "/" + new_filename, "wb"))
+        except:
+            print("*** skipped " + file + " ***")
+            pass
