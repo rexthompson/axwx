@@ -46,5 +46,46 @@ axwx/
   |- requirements.txt
 ```
 
-Using the Accident-Weather Analysis Tool (`Ax/Wx`)
+Installation
+---------------------------
+To install Ax/Wx... ####include details
+
+Examples (How to use Ax/Wx)
+-------------------------------------
+To understand how to use Ax/Wx, please refer to the [Examples](https://github.com/rexthompson/axwx/tree/master/examples) 
+section of this GitHub page where you can find examples for doing the following:
+    
+- How to generate a list of active personal weather stations in a region of interest
+- Scraping weather data from a generated list of personal weather stations
+- Cleaning the scraped weather data
+- Cleaning the Washington State Patrol collision data
+- Merging weather data with collision data from the Washington State patrol
+- Creating visualizations with the merged dataset
+
+
+
+Project History
+-------------------------------------
+The idea for Ax/Wx was developed in May 2017 in the University of Washington's DATA 515 course for Software Development.
+Seeing the potential benefit of personal weather station data (sourced from Weather Underground) combined with collision
+records from the Washington State Patrol, we decided build the infrastructure to help easily scrape and combine these 
+two data sources.  The first objective we had set was to perform an analysis within the Seattle area to see what 
+insights could be uncovered in respect to weather impacts on collision occurrence.  Going forward, we hope to explore 
+integrating interactive visualization tools and perhaps even mobile application creation.
+
+Station List function to scrape can be easily customized to scrape weather data for state in the U.S. and can be further
+subset based off lat/long inputs.
+
+
+Limitations
+-------------------------------------
+In its current form, the Ax/Wx package serves as a very efficient and customizable weather station and data scraping 
+tool, with the ability for local users in Washington State to merge the data with 
+[Washington State Patrol's collision data](http://www.wsp.wa.gov/publications/collision.htm).
+
+The package also does not support ad hoc interactive visualization but can create an analysis
+report for weather impacts on accidents in Washington State for a given time frame.
+
+Contact
 --------------------------------------------------
+Questions? Comments? Drop us a line at [axwx@googlegroups.com](https://groups.google.com/forum/#!forum/axwx)
