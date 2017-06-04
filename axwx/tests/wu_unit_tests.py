@@ -9,8 +9,8 @@ class TestGetData(unittest.TestCase):
 
     """
     This class performs a unit test for the wu_metadata_scraping.py dataset by 
-    testing the number of columns in the cleaned data set is equivalent 
-    to the cleaned data output in order to ensure data integrity.
+    testing the number of columns in the input dataset matches the 
+    output dataset.
     """
     def test_num_columns(self):
         """
