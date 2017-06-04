@@ -3,7 +3,10 @@ import urllib3
 from bs4 import BeautifulSoup as BS
 import numpy as np
 import requests
-# import time
+
+
+# This is a dummy file copy of wu_metadata_scraping.py to be used for unit testing.
+
 
 def scrape_station_info(state="WA"):
 
