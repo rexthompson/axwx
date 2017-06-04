@@ -1,4 +1,5 @@
-# placeholder for file that initializes project after it has been cloned
+# Setup module for Ax/Wx
+
 
 import os
 from setuptools import setup, find_packages
@@ -9,23 +10,23 @@ PACKAGES = find_packages()
 # with open(ver_file) as f:
 #     exec(f.read())
 
-packages = ['csv', 'os', 'time', 'pandas', 'pickle', 'requests',
-            'urllib3', 'bs4.BeautifulSoup', 'numpy']
+# packages = ['csv', 'os', 'time', 'pandas', 'pickle', 'requests',
+#             'urllib3', 'bs4.BeautifulSoup', 'numpy']
 
-opts = dict(name="NAME",
-            #maintainer="MAINTAINER",  # TODO
-            #maintainer_email="MAINTAINER_EMAIL",  # TODO
-            #description="DESCRIPTION",  # TODO
-            #long_description="LONG_DESCRIPTION",
-            #url="URL",
+opts = dict(name = 'Ax/Wx',
+            maintainer='Rex Thompson',
+            maintainer_email= 'rexs.thompson@gmail.com',
+            description = 'Accident-Weather Analysis Tool',
+            long_description = 'AxWx - Accident-Weather Analysis Tool for data scraping, '
+                               'cleaning, merging and analysis',
+            url = 'https://github.com/rexthompson/axwx',
             #download_url="DOWNLOAD_URL",
-            #license="LICENSE",
+            license = 'MIT',
             #classifiers="CLASSIFIERS",
-            #author="AUTHOR",  # TODO
-            #author_email="AUTHOR_EMAIL",  # TODO
-            #platforms="PLATFORMS",
-            #version="VERSION",  # TODO
-            packages=packages)#,
+            author='Ax/Wx"',
+            author_email = 'axwx@googlegroups.com',
+            version='0.1',
+            packages=PACKAGES)
             #package_data="PACKAGE_DATA",
             #install_requires="REQUIRES",
             #requires="REQUIRES")

@@ -52,8 +52,9 @@ To install Ax/Wx... ####include details
 
 Examples (How to use Ax/Wx)
 -------------------------------------
-To understand how to use Ax/Wx, please refer to the [Examples](https://github.com/rexthompson/axwx/tree/master/examples) 
-section of this GitHub page where you can find examples for doing the following:
+To understand how to use Ax/Wx, please refer to 
+the[Examples](https://github.com/rexthompson/axwx/tree/master/examples)section of this GitHub page where you can find 
+examples for doing the following:
     
 - How to generate a list of active personal weather stations in a region of interest
 - Scraping weather data from a generated list of personal weather stations
@@ -80,12 +81,21 @@ subset based off lat/long inputs.
 Limitations
 -------------------------------------
 In its current form, the Ax/Wx package serves as a very efficient and customizable weather station and data scraping 
-tool, with the ability for local users in Washington State to merge the data with 
-[Washington State Patrol's collision data](http://www.wsp.wa.gov/publications/collision.htm).
+tool, with the ability for local users in Washington State to merge the data 
+with[Washington State Patrol's collision data](http://www.wsp.wa.gov/publications/collision.htm).
 
 The package also does not support ad hoc interactive visualization but can create an analysis
 report for weather impacts on accidents in Washington State for a given time frame.
 
+
+Acknowledgements
+----------------------
+A thanks to our DATA 515 course professors, Joe Hellerstein and Dave Beck, of the University of Washington eScience
+Institute, for instructing us on the best practices of software development.
+
+As mentioned, Weather Underground and Washington State Patrol were the resources used for the sourcing of weather 
+station and collision data respectively.
+
 Contact
 --------------------------------------------------
-Questions? Comments? Drop us a line at [axwx@googlegroups.com](https://groups.google.com/forum/#!forum/axwx)
+Questions? Comments? Drop us a line at[axwx@googlegroups.com](https://groups.google.com/forum/#!forum/axwx)
