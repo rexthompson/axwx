@@ -9,7 +9,7 @@ import pickle
 
 def clean_obs_data(df):
     """
-    Clean WU PWS data for a single station. Currently just fills missing values w/ NaN's.
+    Cleans WU PWS data for a single station. Replaces bad values (above/below thresholds) with NaN's.
     :param df: pandas.DataFrame
         raw data
     :return: cleaned pandas.DataFrame
@@ -44,13 +44,28 @@ def clean_obs_data(df):
         elif col not in ignore:
             df_clean.loc[df_clean[col] < 0, col] = np.nan
 
-    # TODO: ADD CODE TO AGGREGATE PRECIPITATION DATA!! May write as separate function...?
-    # TODO: Add code to convert wind speed/direction into vector for directional averaging?
-
     # TODO: add checks for outliers based on variance of surrounding data
     # TODO: add checks for frozen values
 
     return df_clean
+
+
+def enhance_wu_data(df):
+    """
+    Enhance WU PWS data for a single station. Currently just adds cumulative precipitation. 
+    :param df: pandas.DataFrame
+        cleaned data
+    :return: enhanced pandas.DataFrame
+    """
+
+    # add cumulative precip data
+    cum_precip_in = np.append(0, np.nancumsum(np.maximum(0, np.diff(df.dailyrainin))))
+    df["cum_rain_in"] = cum_precip_in
+
+    # TODO: Add code to convert wind speed/direction into vector for directional averaging?
+
+    return df
+
 
 def load_weather_data():
 
