@@ -52,20 +52,20 @@ def clean_obs_data(df):
 
     return df_clean
 
-#def load_weather_data():
+def load_weather_data():
 
-file_list = pd.read_csv('/Users/mgrant/MS_Data_Science/DATA_515/Weather_Project/Project_Git/Ax-Wx/data/weather_file_list.csv')
+    file_list = pd.read_csv('/Users/mgrant/MS_Data_Science/DATA_515/Weather_Project/Project_Git/Ax-Wx/data/weather_file_list.csv')
 
-data = []
-station = []
+    data = []
+    station = []
 
-for i in range(1,len(file_list)):
-    filename = file_list.ix[i][0]
-    station_name = file_list.ix[i][0].split('/')[-1].split('.')[0]
-    data = pickle.load(open('%s' % filename, 'rb'))
-    data = pd.DataFrame(data)
-    data['CumulativePrecip'] = np.cumsum(np.asarray(data['HourlyPrecipIn'], \
-    dtype=float))
-    clean_data = clean_obs_data(data)
-    with open('/Users/mgrant/MS_Data_Science/DATA_515/Weather_Project/Project_Git/Ax-Wx/data/local/cleaned/%s' % station_name + '_cleaned.p','wb') as f:
-        pickle.dump(clean_data, f)
+    for i in range(1,len(file_list)):
+        filename = file_list.ix[i][0]
+        station_name = file_list.ix[i][0].split('/')[-1].split('.')[0]
+        data = pickle.load(open('%s' % filename, 'rb'))
+        data = pd.DataFrame(data)
+        data['CumulativePrecip'] = np.cumsum(np.asarray(data['HourlyPrecipIn'], \
+        dtype=float))
+        clean_data = clean_obs_data(data)
+        with open('/Users/mgrant/MS_Data_Science/DATA_515/Weather_Project/Project_Git/Ax-Wx/data/local/cleaned/%s' % station_name + '_cleaned.p','wb') as f:
+            pickle.dump(clean_data, f)
