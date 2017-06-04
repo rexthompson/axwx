@@ -90,7 +90,6 @@ def clean_and_enhance_wu_data(raw_data_dir, cleaned_data_dir):
                 new_filename = filename_split + "_cleaned"
             else:
                 new_filename = ''.join(filename_split[:-1]) + "_cleaned." + filename_split[-1]
-            print("new_filename = " + new_filename)
             pickle.dump(df, open(cleaned_data_dir + "/" + new_filename, "wb"))
         except:
             print("*** skipped " + file + " ***")
