@@ -1,4 +1,8 @@
-# Unit tests for wu_cleaning.py
+"""
+Unit tests for wu_cleaning.py (Weather Underground Data Cleaning) script.
+"""
+
+
 import unittest
 import numpy as np
 import pandas as pd
@@ -7,10 +11,16 @@ from wu_cleaning import clean_obs_data
 
 class TestWuCleaning(unittest.TestCase):
 
-    # Test number of columns
+    """
+    Testing the number of columns in the scraped data set is equivalent 
+    to the cleaned data output in order to ensure data integrity.
+    """
     def test_wu_cleaning(self):
 
-        #create a dummy dataframe to test the cleaning
+        """
+        Creating a dummy dataframe to test the cleaning function wu_cleaning.py
+        """
+
         dummy_data = pd.DataFrame({'TemperatureF': [0,50,150], 'DewpointF': \
         [-99.9, 50, 80], 'PressureIn': [0,30,50], 'WindDirectionDegrees': \
         [-50, 50, 500], 'Humidity': [-50,50,150]})
