@@ -55,7 +55,7 @@ def scrape_data_one_day(station_id, year, month, day):
 
 
 def scrape_data_multiple_day(station_id, start_date, end_date,
-                          delay=3, combined_df=None):
+                             delay=3, combined_df=None):
     """
     Retrieve PWS data for a single station over a given date range
     :param station_id: string
@@ -111,7 +111,7 @@ def scrape_data_multiple_day(station_id, start_date, end_date,
 
 
 def scrape_data_multiple_stations_and_days(station_ids, start_date,
-                                        end_date, data_dir, delay=1):
+                                           end_date, data_dir, delay=1):
     """
     Retrieve PWS data for multiple stations over a given date range
     :param station_ids: list
@@ -138,4 +138,5 @@ def scrape_data_multiple_stations_and_days(station_ids, start_date,
 # station_ids = ['KWASEATT134', 'KWASEATT166']
 # data_dir = "/Users/Thompson/Desktop/DATA 515/" \
 #            "Final Project/data/local/wu_station_data"
-# scrape_data_multiple_stations_and_days(station_ids, 20160501, 20160503, data_dir)
+# scrape_data_multiple_stations_and_days(station_ids, 20160501, 20160503,
+#                                        data_dir)

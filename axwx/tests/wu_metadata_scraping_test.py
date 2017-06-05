@@ -5,11 +5,7 @@ import numpy as np
 import requests
 
 
-# This is a dummy file copy of wu_metadata_scraping.py to be used for unit testing.
-
-
 def scrape_station_info(state="WA"):
-
     """
     A script to scrape the station information published at the following URL:
     https://www.wunderground.com/weatherstation/ListStations.asp?
@@ -26,7 +22,7 @@ def scrape_station_info(state="WA"):
     list_stations_info = soup.find_all("tr")
 
     all_station_info = np.array(['id', 'neighborhood', 'city', 'type', 'lat',
-    'lon', 'elevation'])
+                                 'lon', 'elevation'])
 
     for i in range(1, 5):  # start at 1 to omit headers
         station_info = str(list_stations_info[i]).splitlines()
@@ -45,23 +41,24 @@ def scrape_station_info(state="WA"):
         station_type = station_type.strip()
 
         # grab the latitude, longitude, and elevation metadata
-        lat,lon,elev = scrape_lat_lon_fly(station_id)
+        lat, lon, elev = scrape_lat_lon_fly(station_id)
 
         # put all data into an array
         header = [station_id, station_neighborhood, station_city, station_type,
-        lat, lon, elev]
+                  lat, lon, elev]
         head_len = len(header)
         all_station_info = np.vstack([all_station_info, header])
 
-
         all_station_info = pd.DataFrame(all_station_info)
-        all_station_info.columns = all_station_info.ix[0,:]
+        all_station_info.columns = all_station_info.ix[0, :]
 
-    #do some dataframe editing
-    all_station_info = all_station_info.drop(all_station_info.index[0]).reset_index()
-    all_station_info = all_station_info.drop(all_station_info.columns[0], axis=1)
+    # do some dataframe editing
+    all_station_info = all_station_info.drop(all_station_info
+                                             .index[0]).reset_index()
+    all_station_info = all_station_info.drop(all_station_info.columns[0],
+                                             axis=1)
 
-    #outputs used for unit tests
+    # outputs used for unit tests
     num_cols = all_station_info.shape[1]
     num_rows = all_station_info.shape[0]
     header = all_station_info.columns.values
@@ -69,7 +66,6 @@ def scrape_station_info(state="WA"):
 
 
 def scrape_lat_lon_fly(stationID):
-
     """
     Add latitude, longitude and elevation data to the stationID that is
     inputted as the argument to the function. Boom.
@@ -78,7 +74,6 @@ def scrape_lat_lon_fly(stationID):
         weather station
     :return: (latitude,longitude,elevation) as a tuple. Double Boom.
     """
-
     http = urllib3.PoolManager(maxsize=10, block=True,
                                cert_reqs='CERT_REQUIRED')
     try:
@@ -90,10 +85,10 @@ def scrape_lat_lon_fly(stationID):
         lat = soup.find_all('latitude')[0].get_text()
         long = soup.find_all('longitude')[0].get_text()
         elev = soup.find_all('elevation')[0].get_text()
-        return(lat,long,elev)
+        return(lat, long, elev)
 
     except Exception as err:
         lat = 'NA'
         long = 'NA'
         elev = 'NA'
-        return(lat,long,elev)
+        return(lat, long, elev)

@@ -11,7 +11,8 @@ import pickle
 
 def clean_obs_data(df):
     """
-    Cleans WU PWS data for a single station. Replaces bad values (above/below thresholds) with NaN's.
+    Cleans WU PWS data for a single station. Replaces bad values (above/below
+    thresholds) with NaN's.
     :param df: pandas.DataFrame
         raw data
     :return: cleaned pandas.DataFrame
@@ -23,7 +24,8 @@ def clean_obs_data(df):
     for col in df_clean.columns:
         df_clean[col] = pd.to_numeric(df_clean[col], errors='ignore')
 
-    ignore = ["Time", "WindDirection", "SoftwareType", "Conditions", "Clouds", "DateUTC"]
+    ignore = ["Time", "WindDirection", "SoftwareType", "Conditions", "Clouds",
+              "DateUTC"]
 
     # low/high limits
     for col in df_clean.columns:
@@ -33,7 +35,8 @@ def clean_obs_data(df):
         elif col == "DewpointF":
             df_clean.loc[df_clean[col] == -99.9, col] = np.nan
             df_clean.loc[df_clean[col] >= 80, col] = np.nan
-            # df_clean.loc[df_clean[col] >= df_clean["TemperatureF"], col] = np.nan
+            # df_clean.loc[df_clean[col] >= df_clean["TemperatureF"], col] =
+            #     np.nan
         elif col == "PressureIn":
             df_clean.loc[df_clean[col] <= 25, col] = np.nan
             df_clean.loc[df_clean[col] >= 31.5, col] = np.nan
@@ -54,17 +57,21 @@ def clean_obs_data(df):
 
 def enhance_wu_data(df):
     """
-    Enhance WU PWS data for a single station. Currently just adds cumulative precipitation. 
+    Enhance WU PWS data for a single station. Currently just adds cumulative
+    precipitation.
     :param df: pandas.DataFrame
         cleaned data
     :return: enhanced pandas.DataFrame
     """
 
     # add cumulative precip data
-    cum_precip_in = np.append(0, np.nancumsum(np.maximum(0, np.diff(df.dailyrainin))))
+    cum_precip_in = np.diff(df.dailyrainin)
+    cum_precip_in = np.append(0, np.nancumsum(np.maximum(0, cum_precip_in)))
+
     df["cum_rain_in"] = cum_precip_in
 
-    # TODO: Add code to convert wind speed/direction into vector for directional averaging?
+    # TODO: Add code to convert wind speed/direction into vector for
+    # directional averaging?
 
     return df
 
@@ -89,7 +96,8 @@ def clean_and_enhance_wu_data(raw_data_dir, cleaned_data_dir):
             if len(filename_split) == 1:
                 new_filename = filename_split + "_cleaned"
             else:
-                new_filename = ''.join(filename_split[:-1]) + "_cleaned." + filename_split[-1]
+                new_filename = ''.join(filename_split[:-1]) + "_cleaned." + \
+                               filename_split[-1]
             pickle.dump(df, open(cleaned_data_dir + "/" + new_filename, "wb"))
         except:
             print("*** skipped " + file + " ***")
