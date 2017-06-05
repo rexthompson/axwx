@@ -1,9 +1,9 @@
-"""
+'''
 WSP Cleaning:
 Takes a csv file from WSP's collision analysis tool and returns a new csv file
 in a format that can be merged with Weather Underground data, ultimately being
 used in a visualization tool
-"""
+'''
 
 
 import numpy as np
@@ -17,14 +17,19 @@ InteractiveShell.ast_node_interactivity = "all"
 
 def convert_stateplane_to_latlon(state_x, state_y, proj_in=2286,
                                  proj_out=4326):
-    """
+    '''
     This funtion takes the state plane coordinates used by the state patrol
     and converts them to latitudes and longitudes to be plotted on a map
-    :param state_x: x state plane coordinate (corresponding with longitude)
-    :param state_y: y state plane coordinate (corresponding with latitude)
-    :proj_in: value to convert state plane coordinate to lat/lon
-    :proj_out: value to convert state plane coordinate to lat/lon
-    """
+
+    :param state_x: float
+    	x state plane coordinate (corresponding with longitude)
+    :param state_y: float
+    	y state plane coordinate (corresponding with latitude)
+    :proj_in: int
+    	value to convert state plane coordinate to lat/lon
+    :proj_out: int
+    	value to convert state plane coordinate to lat/lon
+    '''
     inProj = Proj(init='epsg:' + str(proj_in), preserve_units=True)
     outProj = Proj(init='epsg:' + str(proj_out))
     x2, y2 = transform(inProj, outProj, state_x, state_y)
@@ -32,14 +37,19 @@ def convert_stateplane_to_latlon(state_x, state_y, proj_in=2286,
 
 
 def column_conversion(input_data, old_column, dictionary, record):
-    """
+    '''
     Converts values in columns to descriptions using dictionaries provided by
     WSP collision analysis tool
-    :param input_data: the dataframe to be read and have column changed
-    :param old_column: reads old column value
-    :param dictionary: reads the appropriate dictionary to assign new value
-    :param record: the record number being changed (processed in loop)
-    """
+
+    :param input_data: dataframe
+    	the dataframe to be read and have column changed
+    :param old_column: string
+    	reads old column value
+    :param dictionary: dictionary
+    	reads the appropriate dictionary to assign new value
+    :param record: int (loop parameter)
+    	the record number being changed (processed in loop)
+    '''
     if not np.isnan(input_data[old_column][record]):
         new_value = dictionary[input_data[old_column][record]]
         return new_value
@@ -48,22 +58,29 @@ def column_conversion(input_data, old_column, dictionary, record):
 
 
 def clean_wsp_collision_data(input_csv_filepath, cleaned_csv_filepath):
-    """
+    '''
     Takes raw input csv downloaded from WSP's collision analysis tool and
     converts it into a cleaned csv that is ready to be merged with Weather
     Underground's data
-    :param input csv: filepath location of file to be cleaned
-    :param cleaned_filename: cleaned output filename
-    """
+
+    :param input csv: string
+    	filepath location of file to be cleaned
+    :param cleaned_filename: string
+    	cleaned output filename
+    '''
     # read in raw data from WSP's collision analysis tool
+    print('\nreading csv file...')
     df = pd.read_csv(input_csv_filepath, sep=',', low_memory=False)
 
     # drop any collision records with no state plane coordinates
+    print('dropping records with no state plane coordinates...')
     df = df.drop(df[np.isnan(df.Colli_Dtl_Info_State_Plane_X)].index)
     df = df.drop(df[np.isnan(df.Colli_Dtl_Info_State_Plane_Y)].index)
     df = df.reset_index(drop=True)
 
     # convert state plane coordinates to latitudes and longitudes
+    print('converting state plane coordinates/'
+          'dropping records not in range...')
     x = np.array(df.Colli_Dtl_Info_State_Plane_X)
     y = np.array(df.Colli_Dtl_Info_State_Plane_Y)
     x_new, y_new = convert_stateplane_to_latlon(x, y)
@@ -88,6 +105,7 @@ def clean_wsp_collision_data(input_csv_filepath, cleaned_csv_filepath):
     df['hour'] = dates.hour
 
     # keep columns of interest
+    print('removing columns not of interest...')
     df = df[['lat',
              'lon',
              'date',
@@ -118,6 +136,7 @@ def clean_wsp_collision_data(input_csv_filepath, cleaned_csv_filepath):
              'MV_Drvr_Air_Bag_Typ_Cd']]
 
     # rename columns to more interpretable names
+    print('renaming columns...')
     df = df.rename(columns={
         'MV_Drvr_Restr_Sys_Typ_Cd': 'driver_restraint_type',
         'MV_Pasngr_Restr_Sys_Typ_Cd': 'passenger_restraint_type',
@@ -142,6 +161,7 @@ def clean_wsp_collision_data(input_csv_filepath, cleaned_csv_filepath):
         'MV_Drvr_Air_Bag_Typ_Cd': 'airbag'})
 
     # create dictionaries:
+    print('creating dictionaries for new value assignments...')
     restraint_type_dict = {
         1: 'No Restraints Used',
         2: 'Lap Belt Used',
@@ -335,6 +355,7 @@ def clean_wsp_collision_data(input_csv_filepath, cleaned_csv_filepath):
     airbag = []
 
     # loop through each record and change the corresponding column codes
+    print('reading through records and updating column values...')
     for i in range(df.shape[0]):
         driver_restraint_type.append(column_conversion(
             df, 'driver_restraint_type', restraint_type_dict, i))

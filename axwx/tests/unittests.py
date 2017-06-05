@@ -22,7 +22,6 @@ class TestWspCleaning(unittest.TestCase):
     Unit tests for wsp_cleaning.py (Washington State Patrol:
     Collision Analysis Tool)
     """
-    print('testing wsp_cleaning.py...')
 
     def test_clean_csv_shape(self):
         """
@@ -77,7 +76,6 @@ class TestWuCleaning(unittest.TestCase):
     Testing the number of columns in the scraped data set is equivalent
     to the cleaned data output in order to ensure data integrity.
     """
-    print('testing wu_cleaning.py...')
 
     def test_wu_cleaning(self):
         """
@@ -113,7 +111,6 @@ class TestWuMetadataScraping(unittest.TestCase):
     testing the number of columns in the input dataset matches the output
     dataset.
     """
-    print('testing wu_metadata_scraping.py...')
 
     def test_num_columns(self):
         """
