@@ -40,13 +40,13 @@ def subset_rain(rain_vals, data):
         taken from the time values using some form of time parsing, i.e.
         pd.Datetimeindex(blah).hour
     """
-    norain_data = data[data['rolling60_precip_in'] < rain_vals[0]]
+    norain_data = data[data['wx_PrecipRate_inhr_last_1hr'] < rain_vals[0]]
 
-    tmp_lightrain = data[data['rolling60_precip_in'] >= rain_vals[0]]
+    tmp_lightrain = data[data['wx_PrecipRate_inhr_last_1hr'] >= rain_vals[0]]
     lightrain_data = tmp_lightrain[tmp_lightrain['rolling60_precip_in'] <
                                    rain_vals[1]]
 
-    heavyrain_data = data[data['rolling60_precip_in'] >= rain_vals[1]]
+    heavyrain_data = data[data['wx_PrecipRate_inhr_last_1hr'] >= rain_vals[1]]
 
     return(norain_data, lightrain_data, heavyrain_data)
 
