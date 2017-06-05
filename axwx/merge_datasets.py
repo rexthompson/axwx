@@ -8,7 +8,6 @@ import copy
 import pickle
 from geopy.distance import vincenty  # note: had to pip install geopy
 from wu_metadata_scraping import subset_stations_by_coords
-from wu_cleaning import clean_obs_data
 
 
 def get_bounding_box(coords, dist_mi):
@@ -53,16 +52,15 @@ def enhance_wsp_with_wu_data(wu_metadata_full_filepath, wsp_data_full_filepath, 
 
     collision_count = wsp_df.shape[0]
 
-    # TODO: write wrapper function on wu_cleaning.py to clean data and save file as *_cleaned
-    # These cleaned files are what we'll call in below (so we don't have to clean them each
-    # time they're called)
-
     wsp_df_new = pd.DataFrame()
     unique_event_id = 1
 
-    for collision_row_id in range(1000):  # TODO: update to range(collision_count):
+    # # TEMP FOR TESTING
+    # collision_count = 2500
 
-        print("-------- processing row #" + str(collision_row_id) + " of " + str(collision_count) + " --------")
+    for collision_row_id in range(collision_count):
+
+        print("-------- processing row #" + str(collision_row_id + 1) + " of " + str(collision_count) + " --------")
 
         # get collision info
         collision_coords = wsp_df["lat"].iloc[collision_row_id], wsp_df["lon"].iloc[collision_row_id]
@@ -81,7 +79,7 @@ def enhance_wsp_with_wu_data(wu_metadata_full_filepath, wsp_data_full_filepath, 
             dup_record = dup_record & (collision_coords[0] == wsp_df_new["lat"][collision_row_id - 1])
             dup_record = dup_record & (collision_coords[1] == wsp_df_new["lon"][collision_row_id - 1])
             if dup_record:
-                print("duplicate event")
+                # print("duplicate event")
                 temp_df_dict = dict(wsp_df.iloc[collision_row_id])
                 temp_df_dict.update(grouped_station_dict)
                 wsp_df_new = wsp_df_new.append(temp_df_dict, ignore_index=True)
@@ -100,6 +98,8 @@ def enhance_wsp_with_wu_data(wu_metadata_full_filepath, wsp_data_full_filepath, 
         # initialize new DF for combined station info
         stations = pd.DataFrame()
 
+        station_data_dict = dict()
+
         # loop through stations
         for station_row_id in range(station_df_temp.shape[0]):
 
@@ -112,14 +112,15 @@ def enhance_wsp_with_wu_data(wu_metadata_full_filepath, wsp_data_full_filepath, 
             # proceed if station within max radius
             if station_dist_mi <= radius_mi:
 
-                # import wx obs for single station  # TODO: update to cleaned data when available
-                wu_station_data = pickle.load(open(station_id + "_cleaned.p", "rb"))
-                # wu_station_data = pickle.load(
-                #     open(station_id + ".p", "rb"))  # TODO: remove this line after all data cleaned
-                # wu_station_data = clean_obs_data(wu_station_data)  # TODO: remove this line after all data cleaned
+                # load wx obs for single station (if not already in data dictionary)
+                if station_id not in station_data_dict.keys():
+                    station_data_dict[station_id] = pickle.load(open(station_id + "_cleaned.p", "rb"))
+                else:
+                    pass
+                wu_station_data = station_data_dict[station_id]
 
                 # subset wx obs to pre-collision only
-                wu_station_datetime = pd.DatetimeIndex(wu_station_data["DateUTC"])
+                wu_station_datetime = pd.DatetimeIndex(wu_station_data["Time"])
                 wu_station_data = wu_station_data[wu_station_datetime <= collision_datetime]
                 wu_station_datetime = wu_station_datetime[wu_station_datetime <= collision_datetime]
 
@@ -134,7 +135,7 @@ def enhance_wsp_with_wu_data(wu_metadata_full_filepath, wsp_data_full_filepath, 
                     WindSpeedMPH_latest = wu_station_data_latest["WindSpeedMPH"].iloc[-1]
                     WindSpeedGustMPH_latest = wu_station_data_latest["WindSpeedGustMPH"].iloc[-1]
                     Humidity_latest = wu_station_data_latest["Humidity"].iloc[-1]
-                    # TODO: ADD PRECIP RATE
+                    HourlyPrecipIn_latest = wu_station_data_latest["HourlyPrecipIn"].iloc[-1]
                     # TODO: ADD WIND DIRECTION
                 else:
                     TemperatureF_latest = np.nan
@@ -145,7 +146,7 @@ def enhance_wsp_with_wu_data(wu_metadata_full_filepath, wsp_data_full_filepath, 
                     WindSpeedMPH_latest = np.nan
                     WindSpeedGustMPH_latest = np.nan
                     Humidity_latest = np.nan
-                    # TODO: ADD PRECIP RATE
+                    HourlyPrecipIn_latest = np.nan
                     # TODO: ADD WIND DIRECTION
 
                 # last 1 hr summary (note that not all parameters are averaged)
@@ -154,7 +155,7 @@ def enhance_wsp_with_wu_data(wu_metadata_full_filepath, wsp_data_full_filepath, 
                 if nrow_last_1hr > 0:
                     TemperatureF_last_1hr_avg = np.round(np.mean(wu_station_data_last_hr["TemperatureF"]), 1)
                     DewpointF_last_1hr_avg = np.round(np.mean(wu_station_data_last_hr["DewpointF"]), 1)
-                    PressureIn_last_1hr_avg =  np.round(np.mean(wu_station_data_last_hr["PressureIn"]), 2)
+                    PressureIn_last_1hr_avg = np.round(np.mean(wu_station_data_last_hr["PressureIn"]), 2)
                     WindSpeedMPH_last_1hr_avg = np.round(np.mean(wu_station_data_last_hr["WindSpeedMPH"]), 1)
                     WindSpeedGustMPH_last_1hr_max = np.round(np.max(wu_station_data_last_hr["WindSpeedGustMPH"]), 1)
                     Humidity_last_1hr_avg = np.round(np.mean(wu_station_data_last_hr["Humidity"]), 1)
@@ -176,6 +177,7 @@ def enhance_wsp_with_wu_data(wu_metadata_full_filepath, wsp_data_full_filepath, 
                     wu_station_datetime_last_1hr = pd.DatetimeIndex(wu_station_data_last_hr["DateUTC"])
                     last_1hr_time_delta = wu_station_datetime_last_1hr[-1] - wu_station_datetime_last_1hr[0]
                     if last_1hr_time_delta > np.timedelta64(45, "m"):
+                        last_1hr_time_delta_hrs = last_1hr_time_delta.seconds / 3600
                         do_last_1hr_calcs = True
                     else:
                         do_last_1hr_calcs = False
@@ -186,31 +188,33 @@ def enhance_wsp_with_wu_data(wu_metadata_full_filepath, wsp_data_full_filepath, 
                 if do_last_1hr_calcs:
                     # net change beginning to end
                     TemperatureF_last_1hr_change = wu_station_data_last_hr["TemperatureF"].iloc[-1] - \
-                                                   wu_station_data_last_hr["TemperatureF"].iloc[-0]
+                                                   wu_station_data_last_hr["TemperatureF"].iloc[0]
                     DewpointF_last_1hr_change = wu_station_data_last_hr["DewpointF"].iloc[-1] - \
-                                                wu_station_data_last_hr["DewpointF"].iloc[-0]
+                                                wu_station_data_last_hr["DewpointF"].iloc[0]
                     PressureIn_last_1hr_change = wu_station_data_last_hr["PressureIn"].iloc[-1] - \
-                                                 wu_station_data_last_hr["PressureIn"].iloc[-0]
+                                                 wu_station_data_last_hr["PressureIn"].iloc[0]
                     Humidity_last_1hr_change = wu_station_data_last_hr["Humidity"].iloc[-1] - \
-                                               wu_station_data_last_hr["Humidity"].iloc[-0]
+                                               wu_station_data_last_hr["Humidity"].iloc[0]
                     # Avg net increase and decrease beginning to end
                     if nrow_last_1hr > 1:
                         TempF_diff = np.diff(wu_station_data_last_hr["TemperatureF"])
                         TemperatureF_last_1hr_avg_increase = -1 * np.round(np.sum(np.minimum(TempF_diff, 0)) /
-                                                                        (nrow_last_1hr - 1), 1)
+                                                                           (nrow_last_1hr - 1), 1)
                         TemperatureF_last_1hr_avg_decrease = np.round(np.sum(np.maximum(TempF_diff, 0)) /
-                                                                   (nrow_last_1hr - 1), 1)
+                                                                      (nrow_last_1hr - 1), 1)
                         DpF_diff = np.diff(wu_station_data_last_hr["DewpointF"])
                         DewpointF_last_1hr_avg_increase = -1 * np.round(np.sum(np.minimum(DpF_diff, 0)) /
-                                                                     (nrow_last_1hr - 1), 1)
+                                                                        (nrow_last_1hr - 1), 1)
                         DewpointF_last_1hr_avg_decrease = np.round(np.sum(np.maximum(DpF_diff, 0)) /
-                                                                (nrow_last_1hr - 1), 1)
+                                                                   (nrow_last_1hr - 1), 1)
                         RH_diff = np.diff(wu_station_data_last_hr["Humidity"])
                         Humidity_last_1hr_avg_increase = -1 * np.round(np.sum(np.minimum(RH_diff, 0)) /
-                                                                    (nrow_last_1hr - 1), 1)
+                                                                       (nrow_last_1hr - 1), 1)
                         Humidity_last_1hr_avg_decrease = np.round(np.sum(np.maximum(RH_diff, 0)) /
-                                                               (nrow_last_1hr - 1), 1)
-                        # TODO: ADD PRECIP RATE
+                                                                  (nrow_last_1hr - 1), 1)
+                        PrecipRate_inhr_last_1hr = (wu_station_data_last_hr["cum_rain_in"].iloc[-1] -
+                                                    wu_station_data_last_hr["cum_rain_in"].iloc[
+                                                        0]) / last_1hr_time_delta_hrs
                         # TODO: ADD WIND DIRECTION
                 else:
                     TemperatureF_last_1hr_change = np.nan
@@ -223,38 +227,39 @@ def enhance_wsp_with_wu_data(wu_metadata_full_filepath, wsp_data_full_filepath, 
                     DewpointF_last_1hr_avg_decrease = np.nan
                     Humidity_last_1hr_avg_increase = np.nan
                     Humidity_last_1hr_avg_decrease = np.nan
-                    # TODO: ADD PRECIP RATE
+                    PrecipRate_inhr_last_1hr = np.nan
                     # TODO: ADD WIND DIRECTION
 
                 # save data in dataframe
-                stations = stations.append({"station_id": station_id,
-                                            "station_dist_mi": station_dist_mi,
-                                            "TemperatureF_latest": TemperatureF_latest,
-                                            "TemperatureF_last_1hr_avg": TemperatureF_last_1hr_avg,
-                                            "TemperatureF_last_1hr_change": TemperatureF_last_1hr_change,
-                                            "TemperatureF_last_1hr_avg_increase": TemperatureF_last_1hr_avg_increase,
-                                            "TemperatureF_last_1hr_avg_decrease": TemperatureF_last_1hr_avg_decrease,
-                                            "DewpointF_latest": DewpointF_latest,
-                                            "DewpointF_last_1hr_avg": DewpointF_last_1hr_avg,
-                                            "DewpointF_last_1hr_change": DewpointF_last_1hr_change,
-                                            "DewpointF_last_1hr_avg_increase": DewpointF_last_1hr_avg_increase,
-                                            "DewpointF_last_1hr_avg_decrease": DewpointF_last_1hr_avg_decrease,
-                                            "PressureIn_latest": PressureIn_latest,
-                                            "PressureIn_last_1hr_avg": PressureIn_last_1hr_avg,
-                                            "PressureIn_last_1hr_change": PressureIn_last_1hr_change,
-                                            "WindSpeedMPH_latest": WindSpeedMPH_latest,
-                                            "WindSpeedMPH_last_1hr_avg": WindSpeedMPH_last_1hr_avg,
-                                            "WindSpeedGustMPH_latest": WindSpeedGustMPH_latest,
-                                            "WindSpeedGustMPH_last_1hr_max": WindSpeedGustMPH_last_1hr_max,
-                                            "Humidity_latest": Humidity_latest,
-                                            "Humidity_last_1hr_avg": Humidity_last_1hr_avg,
-                                            "Humidity_last_1hr_change": Humidity_last_1hr_change,
-                                            "Humidity_last_1hr_avg_increase": Humidity_last_1hr_avg_increase,
-                                            "Humidity_last_1hr_avg_decrease": Humidity_last_1hr_avg_decrease},
-                                           # TODO: ADD PRECIP RATE
+                stations = stations.append({"wx_station_id": station_id,
+                                            "wx_station_dist_mi": station_dist_mi,
+                                            "wx_TemperatureF_latest": TemperatureF_latest,
+                                            "wx_TemperatureF_last_1hr_avg": TemperatureF_last_1hr_avg,
+                                            "wx_TemperatureF_last_1hr_change": TemperatureF_last_1hr_change,
+                                            "wx_TemperatureF_last_1hr_avg_increase": TemperatureF_last_1hr_avg_increase,
+                                            "wx_TemperatureF_last_1hr_avg_decrease": TemperatureF_last_1hr_avg_decrease,
+                                            "wx_DewpointF_latest": DewpointF_latest,
+                                            "wx_DewpointF_last_1hr_avg": DewpointF_last_1hr_avg,
+                                            "wx_DewpointF_last_1hr_change": DewpointF_last_1hr_change,
+                                            "wx_DewpointF_last_1hr_avg_increase": DewpointF_last_1hr_avg_increase,
+                                            "wx_DewpointF_last_1hr_avg_decrease": DewpointF_last_1hr_avg_decrease,
+                                            "wx_PressureIn_latest": PressureIn_latest,
+                                            "wx_PressureIn_last_1hr_avg": PressureIn_last_1hr_avg,
+                                            "wx_PressureIn_last_1hr_change": PressureIn_last_1hr_change,
+                                            "wx_WindSpeedMPH_latest": WindSpeedMPH_latest,
+                                            "wx_WindSpeedMPH_last_1hr_avg": WindSpeedMPH_last_1hr_avg,
+                                            "wx_WindSpeedGustMPH_latest": WindSpeedGustMPH_latest,
+                                            "wx_WindSpeedGustMPH_last_1hr_max": WindSpeedGustMPH_last_1hr_max,
+                                            "wx_Humidity_latest": Humidity_latest,
+                                            "wx_Humidity_last_1hr_avg": Humidity_last_1hr_avg,
+                                            "wx_Humidity_last_1hr_change": Humidity_last_1hr_change,
+                                            "wx_Humidity_last_1hr_avg_increase": Humidity_last_1hr_avg_increase,
+                                            "wx_Humidity_last_1hr_avg_decrease": Humidity_last_1hr_avg_decrease,
+                                            "wx_PrecipRate_inhr_latest_max": HourlyPrecipIn_latest,
+                                            "wx_PrecipRate_inhr_last_1hr": PrecipRate_inhr_last_1hr},
                                            # TODO: ADD WIND DIRECTION
                                            ignore_index=True)
-                stations = stations.sort_values("station_dist_mi")
+                stations = stations.sort_values("wx_station_dist_mi")
             else:
                 pass
 
@@ -265,11 +270,13 @@ def enhance_wsp_with_wu_data(wu_metadata_full_filepath, wsp_data_full_filepath, 
 
         # gather WU data means and address renamed and non-mean'd parameters
         grouped_station_dict = np.mean(stations)
-        grouped_station_dict["mean_station_dist_mi"] = grouped_station_dict.pop("station_dist_mi")
-        grouped_station_dict["WindSpeedGustMPH_latest"] = np.max(stations.WindSpeedGustMPH_latest)
-        grouped_station_dict["WindSpeedGustMPH_last_1hr_max"] = np.max(stations.WindSpeedGustMPH_last_1hr_max)
-        grouped_station_dict["station_count"] = station_count
-        grouped_station_dict["unique_event_id"] = unique_event_id
+        grouped_station_dict["wx_mean_station_dist_mi"] = grouped_station_dict.pop("wx_station_dist_mi")
+        grouped_station_dict["wx_WindSpeedGustMPH_latest"] = np.max(stations.wx_WindSpeedGustMPH_latest)
+        grouped_station_dict["wx_WindSpeedGustMPH_last_1hr_max"] = np.max(stations.wx_WindSpeedGustMPH_last_1hr_max)
+        grouped_station_dict["wx_PrecipRate_inhr_latest_max"] = np.max(stations.wx_PrecipRate_inhr_latest_max)
+        grouped_station_dict["wx_PrecipRate_inhr_last_1hr"] = np.max(stations.wx_PrecipRate_inhr_last_1hr)
+        grouped_station_dict["wx_station_count"] = station_count
+        grouped_station_dict["wx_unique_event_id"] = unique_event_id
 
         # combine WSP and WU dictionaries and append to wsp_df_new
         temp_df_dict.update(grouped_station_dict)
