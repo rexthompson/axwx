@@ -1,7 +1,11 @@
 """
 Functions to combine Washington State Patrol and Weather Underground datasets into single enhanced DF
 """
-
+import pandas as pd
+import os
+import numpy as np
+import copy
+import pickle
 from geopy.distance import vincenty  # note: had to pip install geopy
 from wu_metadata_scraping import subset_stations_by_coords
 from wu_cleaning import clean_obs_data
@@ -56,7 +60,7 @@ def enhance_wsp_with_wu_data(wu_metadata_full_filepath, wsp_data_full_filepath, 
     wsp_df_new = pd.DataFrame()
     unique_event_id = 1
 
-    for collision_row_id in range(10):  # TODO: update to range(collision_count):
+    for collision_row_id in range(1000):  # TODO: update to range(collision_count):
 
         print("-------- processing row #" + str(collision_row_id) + " of " + str(collision_count) + " --------")
 
@@ -109,10 +113,10 @@ def enhance_wsp_with_wu_data(wu_metadata_full_filepath, wsp_data_full_filepath, 
             if station_dist_mi <= radius_mi:
 
                 # import wx obs for single station  # TODO: update to cleaned data when available
-                # wu_station_data = pickle.load(open(station_id + "_cleaned.p", "rb"))
-                wu_station_data = pickle.load(
-                    open(station_id + ".p", "rb"))  # TODO: remove this line after all data cleaned
-                wu_station_data = clean_obs_data(wu_station_data)  # TODO: remove this line after all data cleaned
+                wu_station_data = pickle.load(open(station_id + "_cleaned.p", "rb"))
+                # wu_station_data = pickle.load(
+                #     open(station_id + ".p", "rb"))  # TODO: remove this line after all data cleaned
+                # wu_station_data = clean_obs_data(wu_station_data)  # TODO: remove this line after all data cleaned
 
                 # subset wx obs to pre-collision only
                 wu_station_datetime = pd.DatetimeIndex(wu_station_data["DateUTC"])
