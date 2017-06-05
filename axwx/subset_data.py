@@ -1,5 +1,5 @@
-rain_vals = [0.05,0.25]
-time_vals = [9,21]
+rain_vals = [0.05, 0.25]
+time_vals = [9, 21]
 def subset_day_night(time_vals, data):
     """
     Function to subset the data by day and night based on the values
@@ -57,7 +57,7 @@ def subset_all(data, time_vals, rain_vals):
         taken from the time values using some form of time parsing, i.e.
         pd.Datetimeindex(blah).hour
     :param time_vals: list
-        Two values used to split the data into day and night subsets. 
+        Two values used to split the data into day and night subsets.
     :param rain_vals: list
         Past 60 minute rain values to subset the data by. The data would be
         subsetted from 0 to the first value, the first to the second value,
