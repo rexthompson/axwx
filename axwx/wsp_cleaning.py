@@ -1,9 +1,9 @@
-'''
+"""
 WSP Cleaning:
 Takes a csv file from WSP's collision analysis tool and returns a new csv file
 in a format that can be merged with Weather Underground data, ultimately being
 used in a visualization tool
-'''
+"""
 
 
 import numpy as np
@@ -17,7 +17,7 @@ InteractiveShell.ast_node_interactivity = "all"
 
 def convert_stateplane_to_latlon(state_x, state_y, proj_in=2286,
                                  proj_out=4326):
-    '''
+    """
     This funtion takes the state plane coordinates used by the state patrol
     and converts them to latitudes and longitudes to be plotted on a map
 
@@ -29,15 +29,15 @@ def convert_stateplane_to_latlon(state_x, state_y, proj_in=2286,
     	value to convert state plane coordinate to lat/lon
     :proj_out: int
     	value to convert state plane coordinate to lat/lon
-    '''
+    """
     inProj = Proj(init='epsg:' + str(proj_in), preserve_units=True)
     outProj = Proj(init='epsg:' + str(proj_out))
-    x2, y2 = transform(inProj, outProj, state_x, state_y)
-    return y2, x2
+    lon, lat = transform(inProj, outProj, state_x, state_y)
+    return lat, lon
 
 
 def column_conversion(input_data, old_column, dictionary, record):
-    '''
+    """
     Converts values in columns to descriptions using dictionaries provided by
     WSP collision analysis tool
 
@@ -49,7 +49,7 @@ def column_conversion(input_data, old_column, dictionary, record):
     	reads the appropriate dictionary to assign new value
     :param record: int (loop parameter)
     	the record number being changed (processed in loop)
-    '''
+    """
     if not np.isnan(input_data[old_column][record]):
         new_value = dictionary[input_data[old_column][record]]
         return new_value
@@ -57,17 +57,14 @@ def column_conversion(input_data, old_column, dictionary, record):
         pass
 
 
-def clean_wsp_collision_data(input_csv_filepath, cleaned_csv_filepath):
-    '''
+def clean_wsp_collision_data(input_csv_filepath):
+    """
     Takes raw input csv downloaded from WSP's collision analysis tool and
-    converts it into a cleaned csv that is ready to be merged with Weather
-    Underground's data
+    converts it into a cleaned dataframe 
 
     :param input csv: string
     	filepath location of file to be cleaned
-    :param cleaned_filename: string
-    	cleaned output filename
-    '''
+    """
     # read in raw data from WSP's collision analysis tool
     print('\nreading csv file...')
     df = pd.read_csv(input_csv_filepath, sep=',', low_memory=False)
@@ -415,6 +412,22 @@ def clean_wsp_collision_data(input_csv_filepath, cleaned_csv_filepath):
     df['alcohol_test_given'] = alcohol_test_given
     df['airbag'] = airbag
 
+    # return cleaned dataframe
+    print('data cleaned!')
+    return df
+
+
+def export_file(input_csv_filepath, cleaned_csv_filepath):
+    """
+    Prints cleaned csv that is ready to be merged with Weather
+    Underground's data
+
+    :param input_csv_filepath: string
+        filepath location of file to be cleaned
+    :param cleaned_filename: string
+        cleaned output filename
+    """
     # write cleaned/formatted data to new csv
+    df = clean_wsp_collision_data(input_csv_filepath)
     df.to_csv(cleaned_csv_filepath, sep=',')
     print('cleaned csv file exported!')

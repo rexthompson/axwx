@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 import unittest
 
-from wsp_cleaning_test import clean_wsp_collision_data
+from axwx.wsp_cleaning import clean_wsp_collision_data
 from wu_cleaning_test import clean_obs_data
 from wu_metadata_scraping_test import scrape_station_info
 
