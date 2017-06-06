@@ -28,7 +28,7 @@ class TestWspCleaning(unittest.TestCase):
         to the correct shape
         """
         df = axwx.clean_wsp_collision_data(op.join(data_path,
-                                                   'wsp_data_unittest.csv'))
+                                                   'test_wsp_raw.csv'))
         shape = df.shape
         expected_shape = (6, 28)
         self.assertEqual(shape, expected_shape)
@@ -39,7 +39,7 @@ class TestWspCleaning(unittest.TestCase):
         with the correct columns
         """
         df = axwx.clean_wsp_collision_data(op.join(data_path,
-                                                   'wsp_data_unittest.csv'))
+                                                   'test_wsp_raw.csv'))
         header = df.head(0)
         expected_header = ('lat' and
                            'lon' and
@@ -144,10 +144,13 @@ class TestMergeDatasets(unittest.TestCase):
         """
         Test for the correct header on the merged set of data
         """
-        df = axwx.enhance_wsp_with_wu_data(''' fill in filepath ''',
-                                           'wsp_data_unittest.csv',
-                                           ''' fill in filepath ''',
-                                           radius_mi=3)
+        df = axwx.enhance_wsp_with_wu_data(op.join(data_path,
+        	                                       'station_data.csv'),
+                                           op.join(data_path,
+                                           	       'test_wsp_clean.csv'),
+                                           op.join(data_path,
+                                           	       'test_wu_data'),
+                                           radius_mi=2)
         header = df.head(0)
         expected_header = ('DewpointF_last_1hr_avg' and
                            'DewpointF_last_1hr_avg_decrease' and
