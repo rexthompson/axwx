@@ -29,7 +29,8 @@ class TestWspCleaning(unittest.TestCase):
         Testing for a successful read of the WSP data and transformation
         to the correct shape
         """
-        shape, header = clean_wsp_collision_data('wsp_data_unittest.csv')
+        df = clean_wsp_collision_data('wsp_data_unittest.csv')
+        shape = df.shape
         expected_shape = (6, 28)
         self.assertEqual(shape, expected_shape)
 
@@ -38,7 +39,8 @@ class TestWspCleaning(unittest.TestCase):
         Testing for a successful read of the WSP data and transformation
         with the correct columns
         """
-        shape, header = clean_wsp_collision_data('wsp_data_unittest.csv')
+        df = clean_wsp_collision_data('wsp_data_unittest.csv')
+        header = df.head(0)
         expected_header = ('lat' and
                            'lon' and
                            'date' and
