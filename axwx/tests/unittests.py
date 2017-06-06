@@ -4,18 +4,11 @@ Collision Analysis Tool)
 """
 
 
-import wsp_cleaning as ax
+import axwx
 import os.path as op
 import numpy as np
 import pandas as pd
 import unittest
-
-# from axwx.wsp_cleaning import clean_wsp_collision_data
-from wu_cleaning_test import clean_obs_data
-from wu_metadata_scraping_test import scrape_station_info
-
-
-data_path = op.join(ax.__path__[0], 'data')
 
 
 class TestWspCleaning(unittest.TestCase):
@@ -29,7 +22,7 @@ class TestWspCleaning(unittest.TestCase):
         Testing for a successful read of the WSP data and transformation
         to the correct shape
         """
-        df = ax.clean_wsp_collision_data(op.join(data_path, 'wsp_data_unittest.csv'))
+        df = axwx.clean_wsp_collision_data('wsp_data_unittest.csv')
         shape = df.shape
         expected_shape = (6, 28)
         self.assertEqual(shape, expected_shape)
@@ -39,7 +32,7 @@ class TestWspCleaning(unittest.TestCase):
         Testing for a successful read of the WSP data and transformation
         with the correct columns
         """
-        df = ax.clean_wsp_collision_data(op.join(data_path, 'wsp_data_unittest.csv'))
+        df = axwx.clean_wsp_collision_data('wsp_data_unittest.csv')
         header = df.head(0)
         expected_header = ('lat' and
                            'lon' and
@@ -88,7 +81,7 @@ class TestWuCleaning(unittest.TestCase):
                                    'WindDirectionDegrees': [-50, 50, 500],
                                    'Humidity': [-50, 50, 150]})
 
-        clean_data = clean_obs_data(dummy_data)
+        clean_data = axwx.clean_obs_data(dummy_data)
 
         self.assertFalse((clean_data.ix[:, 0] <= 10).any())
         self.assertFalse((clean_data.ix[:, 0] >= 125).any())
@@ -120,7 +113,7 @@ class TestWuMetadataScraping(unittest.TestCase):
         """
         num_col = 7
         num_row = 4
-        num_colt, num_rowt, headerst = scrape_station_info()
+        num_colt, num_rowt, headerst = axwx.scrape_station_info()
         self.assertEqual(num_colt, num_col)
         self.assertEqual(num_rowt, num_row)
 
@@ -130,7 +123,7 @@ class TestWuMetadataScraping(unittest.TestCase):
         """
         headers = np.asarray(['id', 'neighborhood', 'city', 'type', 'lat',
                               'lon', 'elevation'])
-        num_colt, num_rowt, headerst = scrape_station_info()
+        num_colt, num_rowt, headerst = axwx.scrape_station_info()
         self.assertTrue((headerst == headers).all())
 
 
