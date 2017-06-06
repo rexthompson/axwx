@@ -17,17 +17,17 @@ The function runs as follows:
 
 - Retrieves HTML of station data table for the requested state
 - Parses out table rows as elements in a list
-- splits strings for each element in the station info list
-- adds each row's data as a new row in a `numpy` array
+- Splits strings for each element in the station info list
+- Adds each row's data as a new row in a `numpy` array
 
-#### Getting the latitude and longitude from the weather stations
+#### Getting the Latitude and Longitude from the Weather Stations
 
-Use the data scraped previously from Weather Underground (WU) listing the unique station identification. From these data, we created a script to obtain the latitude and longitude from these weather stations. The script runs as follows:
+Use the data scraped previously from Weather Underground (WU) listing the unique station identification. From this data, we created a script to obtain the latitude and longitude from the weather stations. The script runs as follows:
 
-- Load the data into python using a `pandas` DataFrame.
-- for each StationID
+- Load the data into python using a `pandas` DataFrame
+- For each StationID:
     - Use `urllib3` package to make each API request using StationID
-    - Use `Beautiful Soup` to parse the XML document for lat, long and elevation
+    - Use `BeautifulSoup` to parse the XML document for latitude, longitude and elevation
     - Any missing data was filled in with NA's
 - Save the file and move on to bigger things
 
@@ -46,7 +46,7 @@ The CAT provides the means to pull collision data that will be utilized in the p
 
 #### Collision Data Cleanup
 
-The raw data includes several attributes that are not pertinent to the project and Ax/Wx visualization tool (217 attributes total). The purpose of the collision data cleanup is to get the data in such a format that it can be merged with the WU data and overlaid onto a map. To merge the two datasets, a function has been designed to transform the current WSP coordinate system (input) to global latitudes and longitudes (output). These new coordinates will be used to merge the collision data with the weather data.
+The raw data includes several attributes that were not pertinent to the original scope of the project and Ax/Wx analysis (217 attributes total). The purpose of the collision data cleanup is to get the data in such a format that it can be merged with the WU data and overlaid onto a map and several visualizations. To merge the two datasets, a function has been designed to transform the current WSP coordinate system (input) to global latitudes and longitudes (output). These new coordinates, along with dates and times, will be used to merge the collision data with the weather data.
 
 #### Merge of Collision Data and Weather Data
 
@@ -54,34 +54,29 @@ Using the coordinate mapping for the collision data, the plan is to design a fun
 
 #### Visualization of Data
 
-The visualization will consist of a GUI with several plots of the collision/weather data.  There will be descriptive text aids for how to use the tool's interactive features at the top.  Once familiar with the tool, the user can look directly below at applying filters for precipitation rate, temperature, and date-time and then draw inferences based on their business need.
+The visualization will consist of several plots of the collision/weather data. These visuals serve as templates for further analysis that can be done using Ax/Wx. The example visualization includes the following:
 
-These interactions can help the user hone in on areas of interest and will update the plots in the GUI.  These will be plots of the following:
-
-- A primary visualization of a city map of Seattle with collisions marked by color based off collision type (fatality, distraction, impairment, weather induced or pedestrian involvement).
-- A smaller supplementary time-series plot of collision frequency (per hour).
-- A smaller supplementary bar graph of the number of collisions (per hour) by collision type.
+- A primary visualization of a city map of Seattle with collisions marked by blue dots
+- Breakdown of contributing factors of collisions by rainfall
+- Exploratory bar charts of how particular weather data relates to the number of collisions
+- Comparison between the subjective classification of road conditions versus the objective weather data of the nearest PWS (with 3 miles)
 
 The Python packages that will be utilized for the visualization are listed as follows:
 
 - `bokeh` - http://bokeh.pydata.org/en/latest/docs/dev_guide/documentation.html
 	- The package `bokeh` is an interactive visualization library to help aid presentation by use of advanced custom graphics (such as interactive plots, dashboards, and data applications) in the style of D3.js.
-- `folium` - https://folium.readthedocs.io/en/latest
-	- The package `folium` is a library with built-in tile sets from `OpenStreetMap`, `Mapbox`, and `Stamen`, supporting `GeoJSON` and `TopoJSON` overlays. Overall, it has a strength in map overlays.
 
 
 INTERACTIONS
 ------------
 
-Most of the components listed above are preliminary steps required to get the data in such a format that it can easily be viewed by users. The culmination of the data retrieval and cleaning process will be a single database of collision data with associated weather data; this database will be used in our visualization tool.
+Most of the components listed above are preliminary steps required to get the data in such a format that it can easily be viewed by users. The culmination of the data retrieval and cleaning process is a single database of collision data with associated weather data; this database can be used for more in-depth analysis into the relationship between collisions and weather in the greater Seattle area.
 
-The visualization tool itself will simply display collision and weather data based on user selections. It will default to show data for all collisions in the region. Various scroll bars and buttons will be provided for filtering the data. Clicking these buttons will filter the data based on the users' selections. For example, clicking the "Monday" button will trigger a filter of the collision and weather database to just those collisions that occurred on Mondays. Similarly, selecting a subset of the map will result in the map zooming in on the region of interest, and the database will be filtered based on this selection as well.
-
-Specific user-based interactions are briefly described below.
+The analysis tool itself focuses on scraping, cleaning and merging the two data sets so that they can easily be visualized for analysis. Specific user-based interactions are briefly described below.
 
 #### Traffic Engineer
 
-Recently in Seattle, traffic engineers have implemented “variable speed zones” on I-5 based on traffic patterns. A traffic engineer could use the predictive analysis of Ax/Wx to determine where more “variable speed zones” should be implemented, and when the speed should be adjusted (i.e. collisions occur X% more often at location Y when the weather conditions are Z).
+Recently in Seattle, traffic engineers have implemented “variable speed zones” on I-5 based on traffic patterns. A traffic engineer could use the Ax/Wx analysis tool to answer questions such as where more “variable speed zones” should be implemented, and when the speed should be adjusted (i.e. collisions occur X% more often at location Y when the weather conditions are Z).
 
 #### Law Enforcement Officer
 
@@ -93,11 +88,12 @@ With Ax/Wx, an individual working for an insurance company could determine wheth
 
 #### Common Driver
 
-Ax/Wx could provide drivers with the best route possible for avoiding traffic collisions (based on historical data), given the current weather conditions.
+Ax/Wx could provide drivers with the best route possible for avoiding traffic collisions (based on historical data), given the current weather conditions. Further uses could include increasing the detail provided by an existing application such as Google Maps. Through Ax/Wx analysis, more data could be leveraged by Google Maps to allow the common driver to know "safer routes" given the current weather conditions.
 
 
 PROJECT PLAN
 ------------
+_Note: This project plan outlines the original plan at the time this document was created._
 
 Week 1:
 
