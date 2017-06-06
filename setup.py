@@ -26,7 +26,7 @@ opts = dict(name='Ax/Wx',
             author='Ax/Wx"',
             author_email='axwx@googlegroups.com',
             version='0.1',
-            packages=PACKAGES
+            packages=PACKAGES,
             package_data="PACKAGE_DATA",
             # install_requires="REQUIRES",
             # requires="REQUIRES"
