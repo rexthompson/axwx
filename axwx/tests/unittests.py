@@ -4,6 +4,7 @@ Collision Analysis Tool)
 """
 
 
+# import axwx
 import os.path as op
 import numpy as np
 import pandas as pd
@@ -14,7 +15,7 @@ from wu_cleaning_test import clean_obs_data
 from wu_metadata_scraping_test import scrape_station_info
 
 
-# data_path = op.join(wsp_cleaning_test.__path__[0], 'data')
+# data_path = op.join(axwx.__path__[0], 'data')
 
 
 class TestWspCleaning(unittest.TestCase):
@@ -28,8 +29,7 @@ class TestWspCleaning(unittest.TestCase):
         Testing for a successful read of the WSP data and transformation
         to the correct shape
         """
-        shape, header = clean_wsp_collision_data('wsp_data_unittest.csv',
-                                                 'wsp_cleaned_data.csv')
+        shape, header = clean_wsp_collision_data('wsp_data_unittest.csv')
         expected_shape = (6, 28)
         self.assertEqual(shape, expected_shape)
 
@@ -38,8 +38,7 @@ class TestWspCleaning(unittest.TestCase):
         Testing for a successful read of the WSP data and transformation
         with the correct columns
         """
-        shape, header = clean_wsp_collision_data('wsp_data_unittest.csv',
-                                                 'wsp_cleaned_data.csv')
+        shape, header = clean_wsp_collision_data('wsp_data_unittest.csv')
         expected_header = ('lat' and
                            'lon' and
                            'date' and
@@ -134,4 +133,4 @@ class TestWuMetadataScraping(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(buffer=True)
