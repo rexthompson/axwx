@@ -27,7 +27,7 @@ opts = dict(name='Ax/Wx',
             author_email='axwx@googlegroups.com',
             version='0.1',
             packages=PACKAGES,
-            package_data={'axwx': ['data/*.csv']},
+            package_data={'axwx': ['data/*']},
             # install_requires="REQUIRES",
             # requires="REQUIRES"
             )
