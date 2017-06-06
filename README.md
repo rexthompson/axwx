@@ -17,11 +17,14 @@ The project has the following structure:
 axwx/
   |- axwx/
      |- data/
+        |- test_wu_data/
+           |- ...
         |- merged.p
         |- merged_data_sample.csv
         |- station_data.csv
+        |- test_wsp_clean.csv
+        |- test_wsp_raw.csv
         |- wsp_cleaned_data.csv
-        |- wsp_data_unittest.csv
      |- tests/
         |- __init__.py
         |- unittests.py
