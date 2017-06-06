@@ -104,8 +104,8 @@ class TestWuCleaning(unittest.TestCase):
 class TestWuMetadataScraping(unittest.TestCase):
     """
     This class performs a unit test for the wu_metadata_scraping.py dataset by
-    testing the number of columns in the input dataset matches the output
-    dataset.
+    testing the number of columns and header in the input dataset matches the 
+    output dataset.
     """
 
     def test_num_columns(self):
@@ -127,6 +127,77 @@ class TestWuMetadataScraping(unittest.TestCase):
                               'lon', 'elevation'])
         num_colt, num_rowt, headerst = wu_meta.scrape_station_info_test()
         self.assertTrue((headerst == headers).all())
+
+
+class TestMergeDatasets(unittest.TestCase):
+    """
+    This class performs a unit test for the merge_datasets.py by testing that
+    the headers match the expected headers after merging the two datasets
+    """
+
+    def test_headers(self):
+        """
+        Test for the correct header on the merged set of data
+        """
+        df = axwx.enhance_wsp_with_wu_data(''' fill in filepath ''',
+                                           'wsp_data_unittest.csv',
+                                           ''' fill in filepath ''',
+                                           radius_mi=3)
+        header = df.head(0)
+        expected_header = ('DewpointF_last_1hr_avg' and
+                            'DewpointF_last_1hr_avg_decrease' and
+                            'DewpointF_last_1hr_avg_increase' and
+                            'DewpointF_last_1hr_change' and
+                            'DewpointF_latest' and
+                            'Humidity_last_1hr_avg' and
+                            'Humidity_last_1hr_avg_decrease' and
+                            'Humidity_last_1hr_avg_increase' and
+                            'Humidity_last_1hr_change' and
+                            'Humidity_latest' and
+                            'PressureIn_last_1hr_avg' and
+                            'PressureIn_last_1hr_change' and
+                            'PressureIn_latest' and
+                            'TemperatureF_last_1hr_avg' and
+                            'TemperatureF_last_1hr_avg_decrease' and
+                            'TemperatureF_last_1hr_avg_increase' and
+                            'TemperatureF_last_1hr_change' and
+                            'TemperatureF_latest' and
+                            'WindSpeedGustMPH_last_1hr_max' and
+                            'WindSpeedGustMPH_latest' and
+                            'WindSpeedMPH_last_1hr_avg' and
+                            'WindSpeedMPH_latest' and
+                            'airbag' and
+                            'alcohol_test_given' and
+                            'contributing_factor_1' and
+                            'contributing_factor_2' and
+                            'contributing_factor_3' and
+                            'current_weather' and
+                            'cyclist_injury' and
+                            'cyclist_present' and
+                            'date' and
+                            'day_of_week' and
+                            'driver_injury' and
+                            'driver_restraint_type' and
+                            'hour' and
+                            'lat' and
+                            'lighting_conditions' and
+                            'lon' and
+                            'mean_station_dist_mi' and
+                            'month' and
+                            'passenger_injury' and
+                            'passenger_restraint_type' and
+                            'pedestrian_injury' and
+                            'pedestrian_present' and
+                            'posted_speed_limit' and
+                            'roadway_characterization' and
+                            'roadway_surface_condition' and
+                            'roadway_surface_type' and
+                            'sobriety_type' and
+                            'station_count' and
+                            'time_of_day' and
+                            'unique_event_id' and
+                            'vehicle_action')
+        self.assertTrue(expected_header in header)
 
 
 if __name__ == '__main__':
