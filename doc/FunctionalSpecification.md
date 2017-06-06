@@ -12,18 +12,18 @@ One of the major contributors to collisions is the weather, even if it is not th
 
 Weather Underground (WU) hosts a Personal Weather Station (PWS) network with over 4,200+ stations in Washington. These stations, while not guaranteed to be as accurate as official reporting stations, are much more widespread offering greater coverage of objective weather data than the ‘official’ reporting stations. It is possible that these stations can be leveraged to provide objective historical observations of the conditions in the vicinity and in the moments leading up to individual collisions.
 
-We aim to create a tool to integrate WSP collision data and WU weather data. The tool will allow users to explore the relationship between certain weather conditions and collision frequency, type, and severity. It would include the ability to identify locations that are prone to collisions during certain conditions based on the historical data, with a goal of improving road safety through more informed decision making. Additionally, the tool could provide real-time predictions about which locations have a higher-than-normal risk for traffic collisions using current conditions.
+We aim to create a tool to integrate WSP collision data and WU weather data. The tool will provide the data that allows users to explore the relationship between certain weather conditions and collision frequency, type, and severity. Users could then use the data to identify locations that are prone to collisions during certain conditions based on the historical data, with a goal of improving road safety through more informed decision making. Additionally, the data from the analysis tool could provide real-time predictions about which locations have a higher-than-normal risk for traffic collisions using current conditions.
 
 
 USERS
 -----
 _Who will use your system? What level of computer experience do they require? What domain knowledge must they have?_
 
-Our target users are individuals in positions of authority to act on the information provided by the visualization tool to make roads safer.  Primarily, we are targeting the following user types:
+Our target users are individuals in positions of authority to act on the information provided by the analysis tool to make roads safer.  Primarily, we are targeting the following user types:
 
 #### Traffic Engineer
 
-To use this visualization tool, the level of computer experience required for a traffic engineer is familiarity with operating graphical user interfaces (point, click, drag, apply drop-down filters). The domain knowledge required to make proper use of the visualization tool will need to be on an expert level regarding high-level understanding of traffic planning, specifically to the Seattle area. A traffic engineer would be able to utilize this resource to identify recurring issues in traffic frequency due to inclement weather and make informed daily decisions as to whether precautionary signs or crash barriers may be required in short-term tactical planning.  For long-term strategic planning, they can assess frequencies and severity of collisions based on location to make proposals for infrastructure improvements to city officials.
+To use this analysis tool, the level of computer experience required for a traffic engineer is familiarity with operating graphical user interfaces (point, click, drag, apply drop-down filters). The domain knowledge required to make proper use of the analysis tool will need to be on an expert level regarding high-level understanding of traffic planning, specifically to the Seattle area. A traffic engineer would be able to utilize this resource to identify recurring issues in traffic frequency due to inclement weather and make informed daily decisions as to whether precautionary signs or crash barriers may be required in short-term tactical planning.  For long-term strategic planning, they can assess frequencies and severity of collisions based on location to make proposals for infrastructure improvements to city officials.
 
 #### Law Enforcement Officer
 
@@ -31,7 +31,7 @@ The level of computer experience required for a law enforcement officer to use t
 
 #### Insurance Company
 
-To use this visualization too, the level of computer experience required for an individual working for an insurance company is familiarity with graphical user interfaces. The required domain experience would be assessing risk and setting policy premiums based off the risk and occurrences of collisions in the region with the added component of weather effects (actuarial/underwriting).
+To use this analysis tool, the level of computer experience required for an individual working for an insurance company is familiarity with graphical user interfaces. The required domain experience would be assessing risk and setting policy premiums based off the risk and occurrences of collisions in the region with the added component of weather effects (actuarial/underwriting).
 
 #### Common Driver
  
