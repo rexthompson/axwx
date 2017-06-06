@@ -417,7 +417,7 @@ def clean_wsp_collision_data(input_csv_filepath):
     return df
 
 
-def export_file(input_csv_filepath, cleaned_csv_filepath):
+def export_cleaned_wsp_file(input_csv_filepath, cleaned_csv_filepath):
     """
     Prints cleaned csv that is ready to be merged with Weather
     Underground's data
