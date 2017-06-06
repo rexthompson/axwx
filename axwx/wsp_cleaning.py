@@ -22,13 +22,13 @@ def convert_stateplane_to_latlon(state_x, state_y, proj_in=2286,
     and converts them to latitudes and longitudes to be plotted on a map
 
     :param state_x: float
-    	x state plane coordinate (corresponding with longitude)
+        x state plane coordinate (corresponding with longitude)
     :param state_y: float
-    	y state plane coordinate (corresponding with latitude)
+        y state plane coordinate (corresponding with latitude)
     :proj_in: int
-    	value to convert state plane coordinate to lat/lon
+        value to convert state plane coordinate to lat/lon
     :proj_out: int
-    	value to convert state plane coordinate to lat/lon
+        value to convert state plane coordinate to lat/lon
     """
     inProj = Proj(init='epsg:' + str(proj_in), preserve_units=True)
     outProj = Proj(init='epsg:' + str(proj_out))
@@ -42,13 +42,13 @@ def column_conversion(input_data, old_column, dictionary, record):
     WSP collision analysis tool
 
     :param input_data: dataframe
-    	the dataframe to be read and have column changed
+        the dataframe to be read and have column changed
     :param old_column: string
-    	reads old column value
+        reads old column value
     :param dictionary: dictionary
-    	reads the appropriate dictionary to assign new value
+        reads the appropriate dictionary to assign new value
     :param record: int (loop parameter)
-    	the record number being changed (processed in loop)
+        the record number being changed (processed in loop)
     """
     if not np.isnan(input_data[old_column][record]):
         new_value = dictionary[input_data[old_column][record]]
@@ -60,10 +60,10 @@ def column_conversion(input_data, old_column, dictionary, record):
 def clean_wsp_collision_data(input_csv_filepath):
     """
     Takes raw input csv downloaded from WSP's collision analysis tool and
-    converts it into a cleaned dataframe 
+    converts it into a cleaned dataframe
 
     :param input csv: string
-    	filepath location of file to be cleaned
+        filepath location of file to be cleaned
     """
     # read in raw data from WSP's collision analysis tool
     print('\nreading csv file...')
