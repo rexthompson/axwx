@@ -27,7 +27,7 @@ opts = dict(name='Ax/Wx',
             author_email='axwx@googlegroups.com',
             version='0.1',
             packages=PACKAGES,
-            package_data={'axwx': ['data/*']},
+            package_data={'axwx': ['data/*', 'data/test_wu_data/*']},
             # install_requires="REQUIRES",
             # requires="REQUIRES"
             )
