@@ -5,7 +5,7 @@ import numpy as np
 import requests
 
 
-def scrape_station_info(state="WA"):
+def scrape_station_info_test(state="WA"):
     """
     A script to scrape the station information published at the following URL:
     https://www.wunderground.com/weatherstation/ListStations.asp?
@@ -65,7 +65,7 @@ def scrape_station_info(state="WA"):
     return(num_cols, num_rows, header)
 
 
-def scrape_lat_lon_fly(stationID):
+def scrape_lat_lon_fly_test(stationID):
     """
     Add latitude, longitude and elevation data to the stationID that is
     inputted as the argument to the function. Boom.
