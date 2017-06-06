@@ -4,18 +4,18 @@ Collision Analysis Tool)
 """
 
 
-# import axwx
+import wsp_cleaning as ax
 import os.path as op
 import numpy as np
 import pandas as pd
 import unittest
 
-from axwx.wsp_cleaning import clean_wsp_collision_data
+# from axwx.wsp_cleaning import clean_wsp_collision_data
 from wu_cleaning_test import clean_obs_data
 from wu_metadata_scraping_test import scrape_station_info
 
 
-# data_path = op.join(axwx.__path__[0], 'data')
+data_path = op.join(axwx.__path__[0], 'data')
 
 
 class TestWspCleaning(unittest.TestCase):
@@ -29,7 +29,7 @@ class TestWspCleaning(unittest.TestCase):
         Testing for a successful read of the WSP data and transformation
         to the correct shape
         """
-        df = clean_wsp_collision_data('wsp_data_unittest.csv')
+        df = ax.clean_wsp_collision_data(op.join(data_path, 'wsp_data_unittest.csv'))
         shape = df.shape
         expected_shape = (6, 28)
         self.assertEqual(shape, expected_shape)
@@ -39,7 +39,7 @@ class TestWspCleaning(unittest.TestCase):
         Testing for a successful read of the WSP data and transformation
         with the correct columns
         """
-        df = clean_wsp_collision_data('wsp_data_unittest.csv')
+        df = ax.clean_wsp_collision_data(op.join(data_path, 'wsp_data_unittest.csv'))
         header = df.head(0)
         expected_header = ('lat' and
                            'lon' and
