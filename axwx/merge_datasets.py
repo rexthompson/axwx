@@ -138,8 +138,8 @@ def enhance_wsp_with_wu_data(wu_metadata_full_filepath,
                 # load wx obs for single station (if not already in data
                 # dictionary)
                 if station_id not in station_data_dict.keys():
-                    station_data_dict[station_id] =
-                    pickle.load(open(station_id + "_cleaned.p", "rb"))
+                    station_data_dict[station_id] = pickle.load(
+                        open(station_id + "_cleaned.p", "rb"))
                 else:
                     pass
                 wu_station_data = station_data_dict[station_id]
