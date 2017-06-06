@@ -15,40 +15,79 @@ Organization of the Project
 The project has the following structure:
 ```
 axwx/
-  |- README.md
   |- axwx/
-     |- __init__.py
-     |- axwx_dashboard.py
-     |- wsp_cleaning.py
-     |- wu_metadata_scraping.py
-     |- wu_observation_scraping.py
-     |- wu_cleaning.py
-     |- merge_wsp_wu.py
+     |- data/
+        |- wsp_data_unittest.csv
      |- tests/
-        |- dashboard_unit_tests.py
-        |- merge_unit_tests.py
-        |- wsp_unit_tests.py
-        |- wu_unit_tests.py
+        |- __init__.py
+        |- unittests.py
+     |- __init__.py
+     |- axwx.py
+     |- dashboard.py
+     |- dashboard_title4.jpg
+     |- get_wu_data.py
+     |- merge_datasets.py
+     |- wsp_cleaning.py
+     |- wu_cleaning.py
+     |- wu_metadata_scraping.py
+     |- wu_metadata_scraping_test.py
+     |- wu_observation_scraping.py
   |- data/
+     |- CAT References/
+        |- CAT-LookUp Excel/
+           |- ...
+        |- CAT-DataDictionary.xlsx
+        |- CAT-LookUp.accdb
+     |- merged.p
+     |- merged_data_sample.csv
      |- station_data.csv
      |- station_data.xlsx
-     |- station_info-1.csv
-     |- CAT-DataDictionary.xlsx
-     |- CAT-LookUp.accdb
+     |- wsp_cleaned_data.csv
   |- doc/
      |- DesignSpecification.md
      |- FunctionalSpecification.md
   |- examples/
      |- ...
   |- images/
+     |- screenshots/
+        |- Screen Shot 2017-06-01 at 11.12.37 AM.png
+        |- Screen Shot 2017-06-01 at 11.19.55 AM.png
+        |- Screen Shot 2017-06-01 at 11.40.20 AM.png
      |- Logo.png
      |- WhiteboardMockup.JPG
      |- axwx-log0.jpg
      |- mockup2.jpg
-  |- setup.py
+  |- .gitignore
   |- LICENSE
+  |- README.md
   |- requirements.txt
+  |- setup.py
 ```
+
+
+
+Installation
+------------
+To install `axwx` you will need to begin by cloning `axwx` on your own computer by using the following `git` command:
+
+```
+git clone https://github.com/uwescience
+```
+
+Next, to install the package you will need to go into the `axwx` directory and run the `setup.py` file:
+
+```
+cd axwx/
+python setup.py install
+```
+
+To ensure that the dependencies to run `axwx` are installed on your computer you will want to run the following command:
+
+```
+pip install -r requirements.txt
+```
+
+You should now be ready to import and use `axwx` on your computer.
 
 
 
@@ -98,31 +137,6 @@ Institute, for instructing us on the best practices of software development.
 
 As mentioned, Weather Underground and Washington State Patrol were the resources used for the sourcing of weather 
 station and collision data respectively.
-
-
-
-Installation
-------------
-To install `axwx` you will need to begin by cloning `axwx` on your own computer by using the following `git` command:
-
-```
-git clone https://github.com/uwescience
-```
-
-Next, to install the package you will need to go into the `axwx` directory and run the `setup.py` file:
-
-```
-cd axwx/
-python setup.py install
-```
-
-To ensure that the dependencies to run `axwx` are installed on your computer you will want to run the following command:
-
-```
-pip install -r requirements.txt
-```
-
-You should now be ready to import and use `axwx` on your computer.
 
 
 
