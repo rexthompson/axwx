@@ -17,6 +17,10 @@ The project has the following structure:
 axwx/
   |- axwx/
      |- data/
+        |- merged.p
+        |- merged_data_sample.csv
+        |- station_data.csv
+        |- wsp_cleaned_data.csv
         |- wsp_data_unittest.csv
      |- tests/
         |- __init__.py
@@ -38,11 +42,7 @@ axwx/
            |- ...
         |- CAT-DataDictionary.xlsx
         |- CAT-LookUp.accdb
-     |- merged.p
-     |- merged_data_sample.csv
-     |- station_data.csv
      |- station_data.xlsx
-     |- wsp_cleaned_data.csv
   |- doc/
      |- DesignSpecification.md
      |- FunctionalSpecification.md
