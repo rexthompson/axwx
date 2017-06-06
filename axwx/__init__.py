@@ -1,1 +1,0 @@
-print('will be the file that marks the directory as a Python package')
