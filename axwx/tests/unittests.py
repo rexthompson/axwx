@@ -10,7 +10,7 @@ import numpy as np
 import pandas as pd
 import unittest
 
-from axwx import wu_metadata_scraping_test
+from axwx import wu_metadata_scraping_test as wu_meta
 
 
 class TestWspCleaning(unittest.TestCase):
@@ -115,7 +115,7 @@ class TestWuMetadataScraping(unittest.TestCase):
         """
         num_col = 7
         num_row = 4
-        num_colt, num_rowt, headerst = axwx.scrape_station_info_test()
+        num_colt, num_rowt, headerst = wu_meta.scrape_station_info_test()
         self.assertEqual(num_colt, num_col)
         self.assertEqual(num_rowt, num_row)
 
@@ -125,7 +125,7 @@ class TestWuMetadataScraping(unittest.TestCase):
         """
         headers = np.asarray(['id', 'neighborhood', 'city', 'type', 'lat',
                               'lon', 'elevation'])
-        num_colt, num_rowt, headerst = axwx.scrape_station_info_test()
+        num_colt, num_rowt, headerst = wu_meta.scrape_station_info_test()
         self.assertTrue((headerst == headers).all())
 
 

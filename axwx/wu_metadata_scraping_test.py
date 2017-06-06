@@ -41,7 +41,7 @@ def scrape_station_info_test(state="WA"):
         station_type = station_type.strip()
 
         # grab the latitude, longitude, and elevation metadata
-        lat, lon, elev = scrape_lat_lon_fly(station_id)
+        lat, lon, elev = scrape_lat_lon_fly_test(station_id)
 
         # put all data into an array
         header = [station_id, station_neighborhood, station_city, station_type,
