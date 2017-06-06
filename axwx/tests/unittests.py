@@ -15,7 +15,7 @@ from wu_cleaning_test import clean_obs_data
 from wu_metadata_scraping_test import scrape_station_info
 
 
-data_path = op.join(axwx.__path__[0], 'data')
+data_path = op.join(ax.__path__[0], 'data')
 
 
 class TestWspCleaning(unittest.TestCase):
