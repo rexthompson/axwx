@@ -1,5 +1,5 @@
 
-## Retrieve Weather Underground Personal Weather Station Metadata
+Retrieve Weather Underground Personal Weather Station Metadata
 -------------------------------------------------------------------------
 
 Use the `axwx.scrape_station_info()` to generate a list of active personal weather stations in a region of interest. Simply specify a US state as an argument to the function (e.g. `state="WA"`), and basic station metadata will be scraped from a URL such as this:
