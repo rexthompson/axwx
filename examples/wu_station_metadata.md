@@ -26,7 +26,7 @@ The function automatically exports the DataFrame as a .csv file to `'./data/stat
 
 Stay tuned for future functionality, including:
 
-* scraping metadata for all active stations (rather than by state)
+* scraping metadata for all active stations (rather than by state), from https://www.wunderground.com/weatherstation/ListStations.asp
 * argument to skip Latitude/Longitude/Elevation (which is the time consuming part)
 * argument to skip writing to .csv, and just return the Pandas DataFrame with basic metadata
 * arguments for additional metadata (e.g. zip code)
