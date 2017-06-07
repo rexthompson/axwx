@@ -6,3 +6,6 @@
 /*/.ipynb_checkpoints/*
 *.pyc
 *.DS_Store
+Ax_Wx.egg-info/*
+build/*
+dist/*
