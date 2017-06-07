@@ -145,11 +145,11 @@ class TestMergeDatasets(unittest.TestCase):
         Test for the correct header on the merged set of data
         """
         df = axwx.enhance_wsp_with_wu_data(op.join(data_path,
-        	                                       'station_data.csv'),
+                                                   'station_data.csv'),
                                            op.join(data_path,
-                                           	       'test_wsp_clean.csv'),
+                                                   'test_wsp_clean.csv'),
                                            op.join(data_path,
-                                           	       'test_wu_data'),
+                                                   'test_wu_data'),
                                            radius_mi=2)
         header = df.head(0)
         expected_header = ('DewpointF_last_1hr_avg' and
