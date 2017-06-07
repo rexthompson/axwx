@@ -8,7 +8,7 @@ import numpy as np
 import copy
 import pickle
 from geopy.distance import vincenty  # note: had to pip install geopy
-from wu_metadata_scraping import subset_stations_by_coords
+from axwx import wu_metadata_scraping as wu_meta
 
 
 def get_bounding_box(coords, dist_mi):
@@ -52,7 +52,7 @@ def enhance_wsp_with_wu_data(wu_metadata_full_filepath,
         min and max longitude range, e.g. [-122.5, -122.2]
     :return:
     """
-    station_df = subset_stations_by_coords(wu_metadata_full_filepath,
+    station_df = wu_meta.subset_stations_by_coords(wu_metadata_full_filepath,
                                            lat_range, lon_range)
     wsp_df = pd.read_csv(wsp_data_full_filepath, index_col="Unnamed: 0")
     os.chdir(wu_obs_filepath)
@@ -113,7 +113,7 @@ def enhance_wsp_with_wu_data(wu_metadata_full_filepath,
         # calculations later)
         station_df_temp = copy.deepcopy(station_df)
         bbox = get_bounding_box(collision_coords, radius_mi)
-        station_df_temp = subset_stations_by_coords(station_df, bbox[0],
+        station_df_temp = wu_meta.subset_stations_by_coords(station_df, bbox[0],
                                                     bbox[1])
 
         # initialize new DF for combined station info
