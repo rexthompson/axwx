@@ -19,6 +19,8 @@ USERS
 -----
 _Who will use your system? What level of computer experience do they require? What domain knowledge must they have?_
 
+__NOTE: Originally we had planned to develop an interactive visualization tool for the following users, however, in its current state, Ax/Wx is a tool that can be utilized as a data acquisition tool. The data acquired from the tool can still be used for the same purposes described below. For future development, it is possible that a visualization tool could be included in the Ax/Wx package.__
+
 Our target users are individuals in positions of authority to act on the information provided by the analysis tool to make roads safer.  Primarily, we are targeting the following user types:
 
 #### Traffic Engineer

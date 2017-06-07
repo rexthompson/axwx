@@ -28,9 +28,10 @@ axwx/
      |- tests/
         |- __init__.py
         |- unittests.py
+     |- AxWx_dashboard.html
      |- __init__.py
      |- axwx.py
-     |- dashboard.py
+     |- dashboard.ipynb
      |- dashboard_title4.jpg
      |- get_wu_data.py
      |- merge_datasets.py
@@ -48,9 +49,11 @@ axwx/
      |- station_data.xlsx
   |- doc/
      |- DesignSpecification.md
+     |- Final Presentation - AxWx.pdf
      |- FunctionalSpecification.md
   |- examples/
-     |- ...
+     |- README.md
+     |- wsp_cleaning.md
   |- images/
      |- screenshots/
         |- Screen Shot 2017-06-01 at 11.12.37 AM.png
@@ -58,7 +61,7 @@ axwx/
         |- Screen Shot 2017-06-01 at 11.40.20 AM.png
      |- Logo.png
      |- WhiteboardMockup.JPG
-     |- axwx-log0.jpg
+     |- axwx-logo.jpg
      |- mockup2.jpg
   |- .gitignore
   |- LICENSE

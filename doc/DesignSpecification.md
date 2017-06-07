@@ -74,6 +74,8 @@ Most of the components listed above are preliminary steps required to get the da
 
 The analysis tool itself focuses on scraping, cleaning and merging the two data sets so that they can easily be visualized for analysis. Specific user-based interactions are briefly described below.
 
+__NOTE: Originally we had planned to develop an interactive visualization tool for the following users, however, in its current state, Ax/Wx is a tool that can be utilized as a data acquisition tool. The data acquired from the tool can still be used for the same purposes described below. For future development, it is possible that a visualization tool could be included in the Ax/Wx package.__
+
 #### Traffic Engineer
 
 Recently in Seattle, traffic engineers have implemented “variable speed zones” on I-5 based on traffic patterns. A traffic engineer could use the Ax/Wx analysis tool to answer questions such as where more “variable speed zones” should be implemented, and when the speed should be adjusted (i.e. collisions occur X% more often at location Y when the weather conditions are Z).
