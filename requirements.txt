@@ -122,7 +122,7 @@ QtPy==1.2.1
 redis==2.10.5
 requests==2.12.4
 rope-py3k==0.9.4.post1
-rsa==3.4.2
+rsa==4.7
 s3transfer==0.1.10
 scikit-image==0.13.0
 scikit-learn==0.18.1
